@@ -1,0 +1,369 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b0d1a">
+  <meta name="description" content="Insyrium UI kit — buttons, forms, tables, modals and more.">
+  <title>Insyrium — UI Kit</title>
+  <link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/app.css">
+  <link rel="stylesheet" href="pages.css">
+</head>
+<body>
+  <div class="aurora" aria-hidden="true">
+    <span class="orb orb-1"></span><span class="orb orb-2"></span><span class="orb orb-3"></span>
+  </div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <nav class="pg-nav">
+    <a class="brand" href="index.html"><span class="brand-mark">◈</span><span class="brand-name">Insyrium</span></a>
+    <div class="pg-nav-links">
+      <a class="pg-link" href="features.html">Features</a>
+      <a class="pg-link" href="pricing.html">Pricing</a>
+      <a class="pg-link" href="about.html">About</a>
+      <a class="pg-link" href="faq.html">FAQ</a>
+      <a class="pg-link" href="contact.html">Contact</a>
+      <a class="pg-link" href="patterns.html">Patterns</a>
+      <a class="pg-link active" href="components.html">UI Kit</a>
+    </div>
+    <div class="pg-nav-actions">
+      <a class="btn ghost" href="forgot-password.html"><span>Sign in</span> →</a>
+      <a class="btn primary" href="verify-email.html">Get started</a>
+    </div>
+  </nav>
+
+  <header class="pg-hero center compact">
+    <div class="pg-hero-inner">
+      <span class="eyebrow">UI kit</span>
+      <h1>The Insyrium <span class="gradient-text">component gallery</span></h1>
+      <p>Every reusable piece of the design system — try the interactions, copy the classes.</p>
+    </div>
+  </header>
+
+  <section class="pg-section wide">
+    <div class="comp-grid">
+      <!-- Palette -->
+      <div class="comp-card reveal">
+        <h3>Color palette <span class="tag">tokens</span></h3>
+        <div class="swatch-row">
+          <span class="swatch" style="background:#6d5cff"><b>accent</b>#6d5cff</span>
+          <span class="swatch" style="background:#22d3ee"><b>accent-2</b>#22d3ee</span>
+          <span class="swatch" style="background:#f472b6"><b>accent-3</b>#f472b6</span>
+          <span class="swatch" style="background:#34d399"><b>success</b>#34d399</span>
+          <span class="swatch" style="background:#fbbf24"><b>warn</b>#fbbf24</span>
+          <span class="swatch" style="background:#f87171"><b>danger</b>#f87171</span>
+          <span class="swatch" style="background:#0b0d1a;border:1px solid var(--line-2)"><b>bg</b>#0b0d1a</span>
+        </div>
+        <div class="comp-row" style="margin-top:.9rem">
+          <div class="pre">:root {
+  --accent: #6d5cff;
+  --accent-2: #22d3ee;
+  --grad: linear-gradient(120deg, #6d5cff, #22d3ee 55%, #f472b6);
+}</div>
+        </div>
+      </div>
+
+      <!-- Buttons -->
+      <div class="comp-card reveal delay-1">
+        <h3>Buttons <span class="tag">.btn</span></h3>
+        <div class="comp-body">
+          <button class="btn primary">Primary</button>
+          <button class="btn">Default</button>
+          <button class="btn glass">Glass</button>
+          <button class="btn ghost">Ghost</button>
+          <button class="btn danger">Danger</button>
+          <button class="btn danger-outline">Outline danger</button>
+          <button class="btn primary lg">Large →</button>
+          <button class="btn" disabled>Disabled</button>
+        </div>
+        <div class="comp-row" style="margin-top:.9rem">
+          <button class="icon-btn ghost" title="Menu">☰</button>
+          <button class="icon-btn" title="Search">⌕</button>
+          <button class="mini-btn">mini-btn</button>
+          <button class="mini-btn ok">approve</button>
+          <button class="mini-btn warn">review</button>
+          <button class="mini-btn danger">reject</button>
+        </div>
+      </div>
+
+      <!-- Badges / pills -->
+      <div class="comp-card reveal">
+        <h3>Badges &amp; pills <span class="tag">.badge .pill</span></h3>
+        <div class="comp-body">
+          <span class="badge badge-supreme_admin">Supreme Admin</span>
+          <span class="badge badge-admin_platform">Platform Admin</span>
+          <span class="badge badge-admin_content">Content Admin</span>
+          <span class="badge badge-admin_support">Support Admin</span>
+          <span class="badge badge-user">User</span>
+        </div>
+        <div class="comp-row" style="margin-top:.8rem">
+          <span class="pill pill-active">Active</span>
+          <span class="pill pill-pending">Pending</span>
+          <span class="pill pill-suspended">Suspended</span>
+          <span class="pill pill-new">New</span>
+          <span class="pill pill-open">Open</span>
+          <span class="pill pill-closed">Closed</span>
+          <span class="pill pill-paid">Paid</span>
+          <span class="pill pill-overdue">Overdue</span>
+          <span class="pill pill-danger">Flagged</span>
+          <span class="pill pill-soft">Soft</span>
+        </div>
+      </div>
+
+      <!-- Form fields -->
+      <div class="comp-card reveal delay-1">
+        <h3>Form fields <span class="tag">.field</span></h3>
+        <div class="comp-row">
+          <div class="field">
+            <label for="demo-email">Email</label>
+            <input id="demo-email" type="email" placeholder="you@company.com">
+            <span class="field-hint">We never share your email.</span>
+          </div>
+          <div class="field">
+            <label for="demo-password">Password</label>
+            <div class="pw-wrap">
+              <input id="demo-password" type="password" placeholder="Create a strong password">
+              <button type="button" class="pw-toggle" data-target="demo-password">👁</button>
+            </div>
+            <div class="pw-meter"><span id="demo-pw-bar" class=""></span></div>
+          </div>
+          <div class="field">
+            <label for="demo-select">Role</label>
+            <select id="demo-select">
+              <option>Platform Admin</option>
+              <option>Content Admin</option>
+              <option>Support Admin</option>
+              <option>User</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="demo-textarea">Message</label>
+            <textarea id="demo-textarea" rows="2" placeholder="Type a message…"></textarea>
+          </div>
+          <label class="check-field"><input type="checkbox" checked><span>Remember this device</span></label>
+          <label class="check-field"><input type="checkbox"><span>Notify me by email</span></label>
+        </div>
+      </div>
+
+      <!-- Switches -->
+      <div class="comp-card reveal">
+        <h3>Switches <span class="tag">.switch-row</span></h3>
+        <div class="comp-row">
+          <label class="switch-row"><span><strong>Two-factor authentication</strong><small>Require a code at sign-in.</small></span><input type="checkbox" checked><span class="switch"></span></label>
+          <label class="switch-row"><span><strong>Email alerts</strong><small>Security and account notices.</small></span><input type="checkbox" checked><span class="switch"></span></label>
+          <label class="switch-row"><span><strong>Maintenance mode</strong><small>Block new logins during updates.</small></span><input type="checkbox"><span class="switch"></span></label>
+        </div>
+      </div>
+
+      <!-- Chips -->
+      <div class="comp-card reveal delay-1">
+        <h3>Chips &amp; tabs <span class="tag">.chip .auth-tab</span></h3>
+        <div class="comp-row">
+          <div class="chip-row">
+            <button class="chip active">All</button>
+            <button class="chip">New</button>
+            <button class="chip">Open</button>
+            <button class="chip">Responded</button>
+            <button class="chip">Closed</button>
+          </div>
+          <div class="auth-tabs" style="width:100%">
+            <button class="auth-tab active">Sign in</button>
+            <button class="auth-tab">Register</button>
+            <button class="auth-tab">Recovery</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Alerts -->
+      <div class="comp-card reveal">
+        <h3>Alerts <span class="tag">.alert</span></h3>
+        <div class="comp-row">
+          <div class="alert success">✓ Your email is verified. You can sign in now.</div>
+          <div class="alert error">✕ Invalid email or password. Try again.</div>
+        </div>
+      </div>
+
+      <!-- Toasts -->
+      <div class="comp-card reveal delay-1">
+        <h3>Toasts <span class="tag">.toast</span></h3>
+        <p class="muted" style="margin-bottom:.7rem">Transient messages via <code>demoToast(msg, type)</code>.</p>
+        <div class="comp-body">
+          <button class="btn" onclick="demoToast('Settings saved.', 'success')">Success</button>
+          <button class="btn" onclick="demoToast('That action failed.', 'error')">Error</button>
+          <button class="btn" onclick="demoToast('New code sent to your inbox.', 'info')">Info</button>
+        </div>
+      </div>
+
+      <!-- Modal -->
+      <div class="comp-card reveal">
+        <h3>Modal <span class="tag">.modal</span></h3>
+        <p class="muted" style="margin-bottom:.7rem">Confirmation and step-up dialogs share this anatomy.</p>
+        <button class="btn primary" onclick="document.getElementById('demo-modal').hidden=false">Open modal</button>
+      </div>
+
+      <!-- Progress -->
+      <div class="comp-card reveal delay-1">
+        <h3>Progress <span class="tag">.progress</span></h3>
+        <div class="comp-row">
+          <div class="progress"><span style="width:72%"></span></div>
+          <div class="progress warn"><span style="width:45%"></span></div>
+          <div class="progress danger"><span style="width:22%"></span></div>
+          <div class="progress ok"><span style="width:90%"></span></div>
+          <div class="metric-row"><span class="m-label">Resource upload</span><span class="m-val">72%</span></div>
+        </div>
+      </div>
+
+      <!-- Stat cards -->
+      <div class="comp-card reveal">
+        <h3>Stat cards <span class="tag">.stat-card</span></h3>
+        <div class="comp-row">
+          <div class="stat-grid mini">
+            <div class="stat-card"><span class="stat-label">Members</span><span class="stat-value">128</span><span class="stat-spark"></span></div>
+            <div class="stat-card"><span class="stat-label">Messages</span><span class="stat-value">9,412</span><span class="stat-spark"></span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Avatars -->
+      <div class="comp-card reveal delay-1">
+        <h3>Avatars <span class="tag">.avatar</span></h3>
+        <div class="comp-body">
+          <div class="avatar">JD</div>
+          <div class="avatar" style="background:linear-gradient(120deg,#22d3ee,#34d399)">AL</div>
+          <div class="avatar" style="background:linear-gradient(120deg,#f472b6,#f87171)">RS</div>
+          <div class="avatar-stack">
+            <div class="avatar">JD</div>
+            <div class="avatar" style="background:linear-gradient(120deg,#22d3ee,#34d399)">AL</div>
+            <div class="avatar" style="background:linear-gradient(120deg,#f472b6,#f87171)">RS</div>
+            <div class="avatar" style="background:var(--panel-solid)">+9</div>
+          </div>
+          <div class="avatar lg">JD</div>
+        </div>
+      </div>
+
+      <!-- Keyboard -->
+      <div class="comp-card reveal">
+        <h3>Keyboard &amp; text <span class="tag">.kbd</span></h3>
+        <div class="comp-body">
+          <span class="kbd">Ctrl</span> + <span class="kbd">K</span> to search
+          <span class="kbd">Esc</span> to close
+          <span class="kbd">↵</span> to send
+        </div>
+        <div class="comp-row" style="margin-top:.9rem">
+          <span class="eyebrow">eyebrow label</span>
+          <span class="gradient-text" style="font-size:1.2rem">Gradient text</span>
+          <span class="mono">mono .mono</span>
+          <span class="muted">muted copy</span>
+        </div>
+      </div>
+
+      <!-- Skeleton -->
+      <div class="comp-card reveal delay-1">
+        <h3>Skeletons <span class="tag">.skeleton</span></h3>
+        <div class="comp-row">
+          <div class="skeleton sk-card"></div>
+          <div class="skeleton" style="height:32px"></div>
+          <div class="skeleton" style="height:32px"></div>
+        </div>
+      </div>
+
+      <!-- Table -->
+      <div class="comp-card reveal" style="grid-column:1/-1">
+        <h3>Tables <span class="tag">.table</span></h3>
+        <div class="table-wrap">
+          <table class="table">
+            <thead><tr><th>User</th><th>Role</th><th>Status</th><th>Last login</th><th></th></tr></thead>
+            <tbody>
+              <tr><td><div class="avatar" style="display:inline-grid;width:30px;height:30px;font-size:.72rem">JD</div> <strong>Jane Doe</strong></td><td><span class="badge badge-admin_platform">Platform Admin</span></td><td><span class="pill pill-active">Active</span></td><td class="mono">2h ago</td><td><button class="mini-btn warn">review</button></td></tr>
+              <tr><td><div class="avatar" style="display:inline-grid;width:30px;height:30px;font-size:.72rem">AK</div> <strong>Alex Kim</strong></td><td><span class="badge badge-user">User</span></td><td><span class="pill pill-suspended">Suspended</span></td><td class="mono">3d ago</td><td><button class="mini-btn danger">reject</button></td></tr>
+              <tr><td><div class="avatar" style="display:inline-grid;width:30px;height:30px;font-size:.72rem">MB</div> <strong>Maria Blanco</strong></td><td><span class="badge badge-admin_content">Content Admin</span></td><td><span class="pill pill-pending">Pending</span></td><td class="mono">—</td><td><button class="mini-btn ok">approve</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Cards / content items -->
+      <div class="comp-card reveal" style="grid-column:1/-1">
+        <h3>Cards &amp; content <span class="tag">.card .content-item</span></h3>
+        <div class="comp-row">
+          <div class="content-item">
+            <div class="content-meta"><span class="pill pill-type">Article</span><span class="pill pill-new">Insyrium</span></div>
+            <h4>Getting started with email OTP</h4>
+            <p>A five-minute walkthrough of your first sign-in, from password to one-time code.</p>
+            <div class="content-foot"><span class="muted">Jane Doe · 2d ago</span><div class="actions"><button class="mini-btn ok">Publish</button><button class="mini-btn">Draft</button></div></div>
+          </div>
+          <div class="card">
+            <div class="card-head"><h3>Card header</h3><button class="icon-btn ghost">✕</button></div>
+            <p class="muted">A standard glass panel — the workhorse of the dashboard. Nest anything inside: forms, stats, tables.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Donut -->
+      <div class="comp-card reveal">
+        <h3>Donut <span class="tag">.donut</span></h3>
+        <div class="comp-row">
+          <div class="donut-wrap">
+            <div class="donut" style="background:conic-gradient(#6d5cff 0 64%, #22d3ee 64% 86%, rgba(255,255,255,.08) 86% 100%)">
+              <div class="donut-label"><b>64%</b><span>adopted</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bar chart -->
+      <div class="comp-card reveal delay-1">
+        <h3>Bar chart <span class="tag">.bar-chart</span></h3>
+        <div class="bar-chart" style="height:150px">
+          <div class="bar-col"><div class="bar-fill" style="height:45%"></div><span class="bar-day">Mon</span></div>
+          <div class="bar-col"><div class="bar-fill" style="height:62%"></div><span class="bar-day">Tue</span></div>
+          <div class="bar-col"><div class="bar-fill" style="height:38%"></div><span class="bar-day">Wed</span></div>
+          <div class="bar-col"><div class="bar-fill" style="height:84%"></div><span class="bar-day">Thu</span></div>
+          <div class="bar-col"><div class="bar-fill" style="height:70%"></div><span class="bar-day">Fri</span></div>
+          <div class="bar-col"><div class="bar-fill" style="height:55%"></div><span class="bar-day">Sat</span></div>
+          <div class="bar-col"><div class="bar-fill" style="height:90%"></div><span class="bar-day">Sun</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-band reveal">
+    <h2>This is the whole system</h2>
+    <p>Every page in this preview is built from these same classes.</p>
+    <a class="btn primary lg" href="index.html">Back to gallery →</a>
+  </section>
+
+  <footer class="footer pg-footer">
+    <span>© <span class="js-year">2026</span> Insyrium · static UI preview</span>
+    <span><a href="index.html">gallery home</a></span>
+  </footer>
+
+  <div id="toasts"></div>
+
+  <!-- Demo modal -->
+  <div class="modal" id="demo-modal" hidden>
+    <div class="modal-backdrop" data-close="demo-modal"></div>
+    <div class="modal-card">
+      <h3>Confirm deletion</h3>
+      <p class="muted">This permanently removes the draft "Q3 roadmap" and cannot be undone.</p>
+      <div class="modal-actions">
+        <button class="btn ghost" data-close="demo-modal">Cancel</button>
+        <button class="btn danger" onclick="document.getElementById('demo-modal').hidden=true; demoToast('Draft deleted.', 'error')">Delete forever</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="pages.js"></script>
+  <script>
+    document.querySelectorAll('[data-close]').forEach(function (el) {
+      el.addEventListener('click', function () {
+        document.getElementById(el.getAttribute('data-close')).hidden = true;
+      });
+    });
+  </script>
+</body>
+</html>

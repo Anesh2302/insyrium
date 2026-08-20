@@ -1,0 +1,136 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b0d1a">
+  <meta name="description" content="Insyrium pricing — Starter, Team and Enterprise plans.">
+  <title>Insyrium — Pricing</title>
+  <link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/app.css">
+  <link rel="stylesheet" href="pages.css">
+</head>
+<body>
+  <div class="aurora" aria-hidden="true">
+    <span class="orb orb-1"></span><span class="orb orb-2"></span><span class="orb orb-3"></span>
+  </div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <nav class="pg-nav">
+    <a class="brand" href="index.html"><span class="brand-mark">◈</span><span class="brand-name">Insyrium</span></a>
+    <div class="pg-nav-links">
+      <a class="pg-link" href="features.html">Features</a>
+      <a class="pg-link active" href="pricing.html">Pricing</a>
+      <a class="pg-link" href="about.html">About</a>
+      <a class="pg-link" href="faq.html">FAQ</a>
+      <a class="pg-link" href="contact.html">Contact</a>
+      <a class="pg-link" href="patterns.html">Patterns</a>
+      <a class="pg-link" href="components.html">UI Kit</a>
+    </div>
+    <div class="pg-nav-actions">
+      <a class="btn ghost" href="forgot-password.html"><span>Sign in</span> →</a>
+      <a class="btn primary" href="verify-email.html">Get started</a>
+    </div>
+  </nav>
+
+  <header class="pg-hero center compact">
+    <div class="pg-hero-inner">
+      <span class="eyebrow">Pricing</span>
+      <h1>Simple plans, <span class="gradient-text">no surprises</span></h1>
+      <p>Start free, scale when your team grows. Every plan includes the full security baseline.</p>
+    </div>
+  </header>
+
+  <section class="pg-section">
+    <div class="price-grid">
+      <div class="price-card reveal">
+        <span class="price-name">Starter</span>
+        <span class="price-amount">$0<small> / month</small></span>
+        <p class="price-desc">For small teams getting their portal running.</p>
+        <ul class="price-list">
+          <li>Up to 10 users</li>
+          <li>Email OTP sign-in</li>
+          <li>Community (text channels)</li>
+          <li>Basic audit log</li>
+          <li class="no">Content publishing</li>
+          <li class="no">Priority support</li>
+        </ul>
+        <a class="btn ghost" href="verify-email.html">Start free</a>
+      </div>
+
+      <div class="price-card featured reveal delay-1">
+        <span class="price-tier">Most popular</span>
+        <span class="price-name">Team</span>
+        <span class="price-amount">$29<small> / user / month</small></span>
+        <p class="price-desc">For growing teams that need publishing and support tooling.</p>
+        <ul class="price-list">
+          <li>Unlimited users</li>
+          <li>Content publishing &amp; review</li>
+          <li>Community with voice channels</li>
+          <li>Support inbox</li>
+          <li>Advanced audit trail</li>
+          <li class="no">SSO / SCIM</li>
+        </ul>
+        <a class="btn primary" href="forgot-password.html">Choose Team →</a>
+      </div>
+
+      <div class="price-card reveal delay-2">
+        <span class="price-name">Enterprise</span>
+        <span class="price-amount">Custom<small> / contact us</small></span>
+        <p class="price-desc">For organisations with strict compliance needs.</p>
+        <ul class="price-list">
+          <li>Everything in Team</li>
+          <li>SSO / SCIM provisioning</li>
+          <li>Custom roles &amp; scopes</li>
+          <li>Dedicated support</li>
+          <li>On-premise option</li>
+        </ul>
+        <a class="btn ghost" href="contact.html">Talk to sales</a>
+      </div>
+    </div>
+    <p class="price-billing">Billed monthly or yearly — yearly saves two months. Prices in USD.</p>
+  </section>
+
+  <section class="pg-section">
+    <div class="section-head reveal">
+      <span class="eyebrow">Compare</span>
+      <h2>Plan details</h2>
+    </div>
+    <div class="card">
+      <div class="table-wrap">
+        <table class="table">
+          <thead>
+            <tr><th>Feature</th><th>Starter</th><th>Team</th><th>Enterprise</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Users</td><td>10</td><td>Unlimited</td><td>Unlimited</td></tr>
+            <tr><td>Email OTP</td><td>✓</td><td>✓</td><td>✓</td></tr>
+            <tr><td>Content publishing</td><td>—</td><td>✓</td><td>✓</td></tr>
+            <tr><td>Voice channels</td><td>—</td><td>✓</td><td>✓</td></tr>
+            <tr><td>Support inbox</td><td>—</td><td>✓</td><td>✓</td></tr>
+            <tr><td>SSO / SCIM</td><td>—</td><td>—</td><td>✓</td></tr>
+            <tr><td>Custom roles</td><td>—</td><td>—</td><td>✓</td></tr>
+            <tr><td>Audit retention</td><td>30 days</td><td>12 months</td><td>7 years</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-band reveal">
+    <h2>Not sure which plan fits?</h2>
+    <p>Talk to us — we'll help you right-size your workspace.</p>
+    <a class="btn primary lg" href="contact.html">Contact us →</a>
+  </section>
+
+  <footer class="footer pg-footer">
+    <span>© <span class="js-year">2026</span> Insyrium · static UI preview</span>
+    <span><a href="index.html">gallery home</a></span>
+  </footer>
+
+  <script src="pages.js"></script>
+</body>
+</html>

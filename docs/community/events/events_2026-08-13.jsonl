@@ -1,0 +1,4 @@
+{"ts": "2026-08-13T04:58:54.025278Z", "event": "server_created", "ip": "127.0.0.1", "actor_id": 15, "target": 10, "name": "E2E Server"}
+{"ts": "2026-08-13T04:58:54.318473Z", "event": "channel_created", "ip": "127.0.0.1", "actor_id": 15, "target": 10, "channel": "general"}
+{"ts": "2026-08-13T09:27:21.833940Z", "event": "server_created", "ip": "127.0.0.1", "actor_id": 22, "target": 11, "name": "Probe Server"}
+{"ts": "2026-08-13T09:27:23.939499Z", "event": "channel_created", "ip": "127.0.0.1", "actor_id": 22, "target": 11, "channel": "general"}

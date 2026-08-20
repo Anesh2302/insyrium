@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}500 — Something went wrong{% endblock %}
+{% block body_class %}auth-page{% endblock %}
+{% block content %}
+<main class="auth-wrap">
+  <div class="auth-card reveal visible centered">
+    <div class="err-code">500</div>
+    <h1>Something went wrong</h1>
+    <p>An unexpected error occurred. The team has been notified — please try again shortly.</p>
+    <a class="btn primary" href="/">Back to home</a>
+  </div>
+</main>
+{% endblock %}

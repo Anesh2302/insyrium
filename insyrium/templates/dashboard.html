@@ -1,0 +1,446 @@
+{% extends "base.html" %}
+{% block title %}{{ portal_name }} — Dashboard{% endblock %}
+{% block body_class %}app-page{% endblock %}
+
+{% block content %}
+<div class="splash" id="splash">
+  <div class="splash-logo">◈</div>
+  <div class="splash-bar"><span></span></div>
+</div>
+
+<div class="app" id="app" hidden>
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <span class="brand-mark">◈</span>
+      <span class="brand-name">Insyrium</span>
+    </div>
+    <nav class="nav-side" id="nav-side"></nav>
+    <div class="sidebar-foot">
+      <div class="user-chip">
+        <div class="avatar" id="sidebar-avatar">?</div>
+        <div class="user-chip-meta">
+          <span class="u-name" id="sidebar-name">…</span>
+          <span class="u-role" id="sidebar-role">…</span>
+        </div>
+      </div>
+      <button class="icon-btn ghost" id="logout-btn" title="Sign out">⏻</button>
+    </div>
+  </aside>
+
+  <div class="app-main">
+    <header class="topbar">
+      <button class="icon-btn ghost menu-btn" id="menu-btn" aria-label="Toggle menu">☰</button>
+      <h2 id="module-title">Overview</h2>
+      <div class="topbar-right">
+        <span class="clock" id="clock"></span>
+        <span class="online-dot" title="Session active"></span>
+      </div>
+    </header>
+
+    <main class="module-view" id="module-view">
+      <!-- ════════ OVERVIEW ════════ -->
+      <section id="mod-overview" class="mod" data-title="Overview">
+        <div class="welcome" id="welcome">
+          <div>
+            <span class="eyebrow" id="welcome-sub">Dashboard</span>
+            <h1 id="welcome-title">Welcome back</h1>
+            <p id="welcome-text">Loading your workspace…</p>
+          </div>
+          <div class="welcome-badge" id="welcome-badge"></div>
+        </div>
+
+        <div class="stat-grid" id="stat-grid">
+          <div class="skeleton sk-card"></div><div class="skeleton sk-card"></div>
+          <div class="skeleton sk-card"></div><div class="skeleton sk-card"></div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-head"><h3>Activity · last 24h</h3></div>
+            <div class="activity-list" id="activity-list"></div>
+          </div>
+          <div class="card">
+            <div class="card-head"><h3>Logins · this week</h3></div>
+            <div class="bar-chart" id="bar-chart"></div>
+          </div>
+        </div>
+
+        <div class="card" id="quick-card">
+          <div class="card-head"><h3>Quick actions</h3></div>
+          <div class="quick-actions" id="quick-actions"></div>
+        </div>
+      </section>
+
+      <!-- ════════ PROFILE ════════ -->
+      <section id="mod-profile" class="mod" data-title="My Profile" hidden>
+        <div class="profile-hero">
+          <div class="avatar lg" id="profile-avatar">?</div>
+          <div>
+            <h1 id="profile-name">…</h1>
+            <p id="profile-email">…</p>
+            <div class="badges" id="profile-badges"></div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-head"><h3>Security</h3></div>
+            <div class="setting-row">
+              <div>
+                <strong>Two-factor authentication</strong>
+                <p>Require a one-time code at sign-in.</p>
+              </div>
+              <button class="btn" id="mfa-toggle">…</button>
+            </div>
+            <div class="setting-row">
+              <div>
+                <strong>Sign out all devices</strong>
+                <p>Revoke every active session immediately.</p>
+              </div>
+              <button class="btn danger-outline" id="logout-all-btn">Sign out all</button>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-head"><h3>Change password</h3></div>
+            <form id="pw-form" class="stack">
+              <div class="field"><label>Current password</label>
+                <div class="pw-wrap"><input type="password" id="pw-current" required><button type="button" class="pw-toggle" data-target="pw-current">👁</button></div>
+              </div>
+              <div class="field"><label>New password</label>
+                <div class="pw-wrap"><input type="password" id="pw-new" required><button type="button" class="pw-toggle" data-target="pw-new">👁</button></div>
+              </div>
+              <button class="btn primary" type="submit">Update password</button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <!-- ════════ SUPPORT INBOX ════════ -->
+      <section id="mod-inbox" class="mod" data-title="Support Inbox" hidden>
+        <div class="card">
+          <div class="card-head">
+            <h3>Contact enquiries</h3>
+            <div class="chip-row" id="inbox-filters">
+              <button class="chip active" data-status="">All</button>
+              <button class="chip" data-status="new">New</button>
+              <button class="chip" data-status="open">Open</button>
+              <button class="chip" data-status="responded">Responded</button>
+              <button class="chip" data-status="closed">Closed</button>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table class="table">
+              <thead><tr><th>From</th><th>Subject</th><th>Message</th><th>Status</th><th>Received</th><th></th></tr></thead>
+              <tbody id="inbox-body"><tr class="empty-row"><td colspan="6">Loading…</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ════════ CONTENT ════════ -->
+      <section id="mod-content" class="mod" data-title="Content Publishing" hidden>
+        <div class="grid-2 col-3-7">
+          <div class="card">
+            <div class="card-head"><h3>New resource</h3></div>
+            <form id="content-form" class="stack">
+              <div class="field"><label>Type</label>
+                <select id="content-type">
+                  <option value="article">Article</option>
+                  <option value="framework">Framework</option>
+                  <option value="template">Template</option>
+                  <option value="knowledge_center">Knowledge Center</option>
+                  <option value="research">Research</option>
+                  <option value="video">Video</option>
+                  <option value="download">Download</option>
+                </select>
+              </div>
+              <div class="field"><label>Product</label>
+                <select id="content-product">
+                  <option value="insyrium">Insyrium</option>
+                  <option value="sape_tqm">SAPE-TQM</option>
+                  <option value="decisium">Decisium</option>
+                  <option value="mirads_builder">MIRADS Builder</option>
+                </select>
+              </div>
+              <div class="field"><label>Title</label><input id="content-title" required maxlength="200"></div>
+              <div class="field"><label>Body</label><textarea id="content-body" rows="5" required></textarea></div>
+              <div class="field"><label>File URL (optional)</label><input id="content-file" type="url" placeholder="https://…"></div>
+              <button class="btn primary" type="submit">Submit for review</button>
+            </form>
+          </div>
+          <div class="card">
+            <div class="card-head">
+              <h3>Resources</h3>
+              <div class="chip-row" id="content-filters">
+                <button class="chip active" data-status="">All</button>
+                <button class="chip" data-status="pending_review">Pending</button>
+                <button class="chip" data-status="published">Published</button>
+                <button class="chip" data-status="draft">Draft</button>
+                <button class="chip" data-status="rejected">Rejected</button>
+              </div>
+            </div>
+            <div class="content-list" id="content-list"><div class="empty">Loading…</div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ════════ USER MANAGEMENT ════════ -->
+      <section id="mod-users" class="mod" data-title="User Management" hidden>
+        <div class="card">
+          <div class="card-head">
+            <h3>User accounts</h3>
+            <div class="toolbar">
+              <div class="search"><span>⌕</span><input id="users-search" placeholder="Search name, email, org…"></div>
+              <div class="chip-row" id="users-filters">
+                <button class="chip active" data-status="">All</button>
+                <button class="chip" data-status="active">Active</button>
+                <button class="chip" data-status="pending_verification">Pending</button>
+                <button class="chip" data-status="suspended">Suspended</button>
+              </div>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table class="table">
+              <thead><tr><th>User</th><th>Role</th><th>Status</th><th>Organization</th><th>Last login · IP · MAC</th><th id="users-actions-th"></th></tr></thead>
+              <tbody id="users-body"><tr class="empty-row"><td colspan="6">Loading…</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ════════ ACTIVE SESSIONS ════════ -->
+      <section id="mod-sessions" class="mod" data-title="Active Sessions" hidden>
+        <div class="card">
+          <div class="card-head">
+            <h3>Active sessions</h3>
+            <div class="toolbar">
+              <div class="search"><span>⌕</span><input id="sessions-search" placeholder="Search name, email, IP, MAC…"></div>
+              <button class="btn" id="sessions-refresh">Refresh</button>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table class="table">
+              <thead><tr><th>User</th><th>IP address</th><th>MAC address</th><th>Device</th><th>Signed in</th><th>Expires</th><th></th></tr></thead>
+              <tbody id="sessions-body"><tr class="empty-row"><td colspan="7">Loading…</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ════════ ADMIN MANAGEMENT ════════ -->
+      <section id="mod-admins" class="mod" data-title="Admin Management" hidden>
+        <div class="grid-2 col-3-7">
+          <div class="card">
+            <div class="card-head"><h3>Create admin</h3></div>
+            <form id="admin-form" class="stack">
+              <div class="reg-section">
+                <h3 class="reg-label">Account</h3>
+                <div class="field"><label>Full name</label><input id="admin-name" autocomplete="name" required placeholder="Jane Doe"></div>
+                <div class="field"><label>Email</label><input id="admin-email" type="email" autocomplete="email" required placeholder="you@company.com"></div>
+                <div class="field"><label>Role</label>
+                  <select id="admin-role">
+                    <option value="admin_platform">Platform Admin</option>
+                    <option value="admin_content">Content Admin</option>
+                    <option value="admin_support">Support Admin</option>
+                  </select>
+                </div>
+                <div class="field"><label>Password</label>
+                  <div class="pw-wrap"><input type="password" id="admin-password" autocomplete="new-password" required><button type="button" class="pw-toggle" data-target="admin-password">👁</button></div>
+                </div>
+              </div>
+              <div class="reg-section">
+                <h3 class="reg-label">Profile</h3>
+                <div class="field"><label>Phone <span class="opt">optional</span></label>
+                  <input id="admin-phone" type="tel" autocomplete="tel" placeholder="+1 555 000 1234">
+                  <span class="field-hint">Used for login alerts and account recovery.</span>
+                </div>
+                <div class="field"><label>Job title <span class="opt">optional</span></label>
+                  <input id="admin-jobtitle" autocomplete="organization-title" placeholder="Security engineer">
+                </div>
+                <div class="field"><label>Department <span class="opt">optional</span></label>
+                  <input id="admin-department" placeholder="Engineering">
+                </div>
+                <div class="field"><label>Organization <span class="opt">optional</span></label>
+                  <input id="admin-org" autocomplete="organization" placeholder="Company Ltd.">
+                </div>
+                <div class="field"><label>Country <span class="opt">optional</span></label>
+                  <input id="admin-country" autocomplete="country-name" list="admin-country-list" placeholder="Select or type your country">
+                  <datalist id="admin-country-list">
+                    <option value="United States"></option>
+                    <option value="United Kingdom"></option>
+                    <option value="Canada"></option>
+                    <option value="Australia"></option>
+                    <option value="India"></option>
+                    <option value="Germany"></option>
+                    <option value="France"></option>
+                    <option value="Spain"></option>
+                    <option value="Netherlands"></option>
+                    <option value="United Arab Emirates"></option>
+                    <option value="Singapore"></option>
+                    <option value="Japan"></option>
+                  </datalist>
+                </div>
+              </div>
+              <div class="reg-section">
+                <h3 class="reg-label">Access</h3>
+                <div class="field"><label>Product scope (optional)</label>
+                  <div class="check-grid" id="admin-products"></div>
+                </div>
+              </div>
+              <button class="btn primary" type="submit">Create admin account</button>
+            </form>
+          </div>
+          <div class="card">
+            <div class="card-head"><h3>Administrators</h3></div>
+            <div class="admin-list" id="admin-list"><div class="empty">Loading…</div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ════════ SYSTEM CONFIG ════════ -->
+      <section id="mod-config" class="mod" data-title="System Config" hidden>
+        <div class="card">
+          <div class="card-head"><h3>Portal settings</h3></div>
+          <form id="config-form" class="stack">
+            <div class="field"><label>Portal name</label><input id="cfg-portal-name"></div>
+            <div class="field"><label>Alert email</label><input id="cfg-alert-email" type="email" placeholder="ops@insyrium.com"></div>
+            <label class="switch-row"><span><strong>Allow public registration</strong><small>Let people create accounts from the landing page.</small></span><input type="checkbox" id="cfg-register"><span class="switch"></span></label>
+            <label class="switch-row"><span><strong>Maintenance mode</strong><small>Block new logins while the portal is being updated.</small></span><input type="checkbox" id="cfg-maintenance"><span class="switch"></span></label>
+            <label class="switch-row"><span><strong>MFA by default for new admins</strong><small>Created admin accounts require OTP at sign-in.</small></span><input type="checkbox" id="cfg-mfa"><span class="switch"></span></label>
+            <button class="btn primary" type="submit">Save settings</button>
+          </form>
+        </div>
+      </section>
+
+      <!-- ════════ BILLING ════════ -->
+      <section id="mod-billing" class="mod" data-title="Billing" hidden>
+        <div class="stat-grid mini" id="billing-totals"></div>
+        <div class="card">
+          <div class="card-head"><h3>Invoices</h3></div>
+          <div class="table-wrap">
+            <table class="table">
+              <thead><tr><th>Invoice</th><th>Description</th><th>Amount</th><th>Status</th><th>Due</th></tr></thead>
+              <tbody id="billing-body"><tr class="empty-row"><td colspan="5">Loading…</td></tr></tbody>
+            </table>
+          </div>
+          <p class="muted note">Demo data — connect your payment provider to bill live.</p>
+        </div>
+      </section>
+
+      <!-- ════════ AUDIT LOGS ════════ -->
+      <section id="mod-audit" class="mod" data-title="Audit Logs" hidden>
+        <div class="card">
+          <div class="card-head">
+            <h3>Security audit trail</h3>
+            <div class="toolbar">
+              <div class="search"><span>⌕</span><input id="audit-action" placeholder="Action (login_failed, …)"></div>
+              <div class="search"><span>◷</span><input id="audit-from" type="date"></div>
+              <div class="search"><span>◷</span><input id="audit-to" type="date"></div>
+              <button class="btn" id="audit-apply">Filter</button>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table class="table">
+              <thead><tr><th>#</th><th>Time</th><th>Actor</th><th>Action</th><th>Target</th><th>Details</th></tr></thead>
+              <tbody id="audit-body"><tr class="empty-row"><td colspan="6">Loading…</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<div id="toasts"></div>
+
+<!-- Step-up verification modal -->
+<div class="modal" id="stepup-modal" hidden>
+  <div class="modal-backdrop" data-close="stepup"></div>
+  <div class="modal-card">
+    <h3>Verify it's you</h3>
+    <p class="muted">Re-enter your password to authorise this sensitive action.</p>
+    <form id="stepup-form">
+      <div class="field"><label>Password</label>
+        <div class="pw-wrap"><input type="password" id="stepup-password" required><button type="button" class="pw-toggle" data-target="stepup-password">👁</button></div>
+      </div>
+      <div id="stepup-otp-wrap" class="field" hidden>
+        <label>One-time code <small id="stepup-otp-dest"></small></label>
+        <input type="tel" id="stepup-otp" maxlength="6" inputmode="numeric" placeholder="6-digit code">
+      </div>
+      <p id="stepup-error" class="form-error" hidden></p>
+      <div class="modal-actions">
+        <button type="button" class="btn ghost" data-close="stepup">Cancel</button>
+        <button type="submit" class="btn primary" id="stepup-submit">Authorise</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Confirm modal -->
+<div class="modal" id="confirm-modal" hidden>
+  <div class="modal-backdrop" data-close="confirm"></div>
+  <div class="modal-card small">
+    <h3 id="confirm-title">Are you sure?</h3>
+    <p id="confirm-text" class="muted"></p>
+    <div class="modal-actions">
+      <button type="button" class="btn ghost" data-close="confirm">Cancel</button>
+      <button type="button" class="btn danger" id="confirm-ok">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<!-- Edit admin modal -->
+<div class="modal" id="editadmin-modal" hidden>
+  <div class="modal-backdrop" data-close="editadmin"></div>
+  <div class="modal-card">
+    <h3>Edit admin</h3>
+    <p class="muted" id="edit-admin-sub"></p>
+    <form id="edit-admin-form">
+      <div class="reg-section">
+        <div class="field"><label>Full name</label><input id="ea-name"></div>
+        <div class="field"><label>Role</label>
+          <select id="ea-role">
+            <option value="admin_platform">Platform Admin</option>
+            <option value="admin_content">Content Admin</option>
+            <option value="admin_support">Support Admin</option>
+          </select>
+        </div>
+        <div class="field"><label>Status</label>
+          <select id="ea-status">
+            <option value="active">Active</option>
+            <option value="suspended">Suspended</option>
+          </select>
+        </div>
+        <div class="field"><label>MFA (OTP at sign-in)</label>
+          <select id="ea-mfa">
+            <option value="true">Enabled</option>
+            <option value="false">Disabled</option>
+          </select>
+        </div>
+      </div>
+      <div class="reg-section">
+        <h3 class="reg-label">Profile</h3>
+        <div class="field"><label>Phone</label><input id="ea-phone" type="tel" placeholder="+1 555 000 1234"></div>
+        <div class="field"><label>Job title</label><input id="ea-jobtitle" placeholder="Security engineer"></div>
+        <div class="field"><label>Department</label><input id="ea-department" placeholder="Engineering"></div>
+        <div class="field"><label>Organization</label><input id="ea-org" placeholder="Company Ltd."></div>
+        <div class="field"><label>Country</label><input id="ea-country" list="admin-country-list" placeholder="Select or type your country"></div>
+      </div>
+      <div class="reg-section">
+        <h3 class="reg-label">Access</h3>
+        <div class="field"><label>Product scope</label>
+          <div class="check-grid" id="ea-products"></div>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn ghost" data-close="editadmin">Cancel</button>
+        <button type="submit" class="btn primary">Save changes</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/dashboard.js"></script>
+{% endblock %}

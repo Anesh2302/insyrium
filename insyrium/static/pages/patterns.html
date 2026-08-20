@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b0d1a">
+  <meta name="description" content="A filterable collection of UI patterns and design methods.">
+  <title>Insyrium — UI Patterns &amp; Design Methods</title>
+  <link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/app.css">
+  <link rel="stylesheet" href="pages.css">
+  <style>
+    .pattern-list { display: flex; flex-direction: column; gap: 0.9rem; }
+    .pattern-card {
+      display: grid; grid-template-columns: auto 1fr; gap: 1.1rem;
+      background: var(--panel); border: 1px solid var(--line); border-radius: 16px;
+      padding: 1.15rem 1.25rem; transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+    .pattern-card:hover { border-color: var(--line-2); transform: translateY(-2px); }
+    .pattern-card .p-icon { font-size: 1.3rem; }
+    .pattern-card h3 { font-size: 1rem; }
+    .pattern-card p { color: var(--text-2); font-size: 0.88rem; margin: 0.25rem 0 0.6rem; }
+    .pattern-card .p-meta { display: flex; gap: 0.4rem; flex-wrap: wrap; align-items: center; }
+    .pattern-card .p-tags { display: flex; gap: 0.35rem; flex-wrap: wrap; margin-top: 0.7rem; }
+    .pattern-card .p-tags span { font-size: 0.68rem; color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 0.14rem 0.55rem; }
+    .p-when { font-size: 0.8rem; color: var(--accent-2); font-weight: 600; }
+    .pattern-count { font-family: var(--font-mono); font-size: 0.8rem; color: var(--muted); }
+    .pattern-toolbar { display: flex; gap: 0.8rem; flex-wrap: wrap; align-items: center; margin-bottom: 1.2rem; }
+    .pattern-toolbar .search { flex: 1; min-width: 200px; }
+    .pattern-toolbar .search input { width: 100%; }
+  </style>
+</head>
+<body>
+  <div class="aurora" aria-hidden="true">
+    <span class="orb orb-1"></span><span class="orb orb-2"></span><span class="orb orb-3"></span>
+  </div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <nav class="pg-nav">
+    <a class="brand" href="index.html"><span class="brand-mark">◈</span><span class="brand-name">Insyrium</span></a>
+    <div class="pg-nav-links">
+      <a class="pg-link" href="features.html">Features</a>
+      <a class="pg-link" href="pricing.html">Pricing</a>
+      <a class="pg-link" href="about.html">About</a>
+      <a class="pg-link" href="faq.html">FAQ</a>
+      <a class="pg-link" href="contact.html">Contact</a>
+      <a class="pg-link active" href="patterns.html">Patterns</a>
+      <a class="pg-link" href="components.html">UI Kit</a>
+    </div>
+    <div class="pg-nav-actions">
+      <a class="btn ghost" href="forgot-password.html"><span>Sign in</span> →</a>
+      <a class="btn primary" href="verify-email.html">Get started</a>
+    </div>
+  </nav>
+
+  <header class="pg-hero center compact">
+    <div class="pg-hero-inner">
+      <span class="eyebrow">Collection</span>
+      <h1>UI patterns &amp; <span class="gradient-text">design methods</span></h1>
+      <p>Every technique used to build this portal — search it, filter it, borrow it.</p>
+    </div>
+  </header>
+
+  <section class="pg-section wide">
+    <div class="pattern-toolbar reveal">
+      <div class="search"><span>⌕</span><input id="pattern-search" placeholder="Search patterns and methods…"></div>
+      <div class="chip-row" id="pattern-filters">
+        <button class="chip active" data-cat="all">All</button>
+      </div>
+      <span class="pattern-count" id="pattern-count"></span>
+    </div>
+    <div class="pattern-list" id="pattern-list"></div>
+  </section>
+
+  <footer class="footer pg-footer">
+    <span>© <span class="js-year">2026</span> Insyrium · static UI preview</span>
+    <span><a href="index.html">gallery home</a></span>
+  </footer>
+
+  <script src="pages.js"></script>
+  <script>
+    (function () {
+      var CATS = [
+        { id: 'feedback', label: 'Feedback & states' },
+        { id: 'navigation', label: 'Navigation' },
+        { id: 'forms', label: 'Forms & input' },
+        { id: 'content', label: 'Content & layout' },
+        { id: 'process', label: 'Design process' },
+        { id: 'foundation', label: 'Foundations' }
+      ];
+
+      var PATTERNS = [
+        { icon: '🦴', cat: 'feedback', name: 'Skeleton loaders', desc: 'Placeholder shapes that mirror the final layout while data loads. Reduces perceived wait and prevents layout shift.', when: 'Any async data load', tags: ['.skeleton', 'shimmer', 'perceived performance'] },
+        { icon: '🌌', cat: 'feedback', name: 'Empty states', desc: 'A guided blank-slate with an icon, explanation and a primary action — turns a dead end into a starting point.', when: 'Lists, feeds, inboxes with no data', tags: ['onboarding', 'first-run'] },
+        { icon: '🍞', cat: 'feedback', name: 'Toasts', desc: 'Transient, non-blocking notifications that confirm an outcome or surface an error without forcing a modal.', when: 'Save, copy, send confirmations', tags: ['.toast', 'auto-dismiss', 'aria-live'] },
+        { icon: '✅', cat: 'feedback', name: 'Inline validation', desc: 'Validate fields the moment the user moves on, showing a specific message right next to the control.', when: 'Sign-in, registration, forms', tags: ['form-error', 'focus-out'] },
+        { icon: '⚡', cat: 'feedback', name: 'Optimistic UI', desc: 'Apply the expected result instantly, then reconcile with the server. Feels faster than waiting for a round-trip.', when: 'Likes, sends, toggles', tags: ['fast-feel', 'rollback'] },
+        { icon: '🚨', cat: 'feedback', name: 'Error states', desc: 'Explain what happened in plain language, what it means and what to do next — with a recovery action.', when: 'Failed requests, auth failures', tags: ['500', 'retry', 'ref ids'] },
+        { icon: '⏳', cat: 'feedback', name: 'Progress indicators', desc: 'Show remaining effort with bars, spinners or step counters so the user knows something is happening.', when: 'Uploads, multi-step flows', tags: ['.progress', 'indeterminate'] },
+
+        { icon: '🧭', cat: 'navigation', name: 'Breadcrumbs', desc: 'A trail of parent pages so users always know where they are and can jump up a level.', when: 'Deep, hierarchical pages', tags: ['trail', 'aria-current'] },
+        { icon: '📑', cat: 'navigation', name: 'Tabs', desc: 'Split related views into a horizontal set of peers, keeping context and reducing scrolling.', when: 'Profile, settings sub-sections', tags: ['.auth-tab', 'role=tablist'] },
+        { icon: '⌘', cat: 'navigation', name: 'Command palette', desc: 'A keyboard-driven search overlay that jumps to actions, pages and objects. Power users\' shortcut to everything.', when: 'Large apps, navigation-heavy UIs', tags: ['Ctrl+K', 'fuzzy search'] },
+        { icon: '📌', cat: 'navigation', name: 'Sticky header', desc: 'Keep the primary actions and identity visible while the content scrolls underneath.', when: 'Dashboards, long documents', tags: ['.topbar', 'z-index'] },
+        { icon: '🔢', cat: 'navigation', name: 'Pagination', desc: 'Split long result sets into pages so the DOM stays light and users can estimate size.', when: 'Tables, search results, logs', tags: ['page-size', 'perf'] },
+        { icon: '🙈', cat: 'navigation', name: 'Progressive disclosure', desc: 'Show the essentials first, reveal detail on demand. Reduces cognitive load on every screen.', when: 'Complex settings, wizards', tags: ['collapsible', 'reveal'] },
+
+        { icon: '🔒', cat: 'forms', name: 'Password strength meter', desc: 'Score the password live and list concrete requirements, so users self-correct before submitting.', when: 'Registration, password reset', tags: ['.pw-meter', '.pw-reqs'] },
+        { icon: '🔎', cat: 'forms', name: 'Debounced search', desc: 'Wait for a pause in typing before querying, so every keystroke does not fire a request.', when: 'User lists, resource libraries', tags: ['setTimeout', 'async'] },
+        { icon: '💡', cat: 'forms', name: 'Autocomplete suggestions', desc: 'Offer valid values from a datalist or API while typing, reducing errors and effort.', when: 'Country, organization, tags', tags: ['datalist', 'typeahead'] },
+        { icon: '🔢', cat: 'forms', name: 'OTP boxes', desc: 'Split a one-time code into individual digits with auto-advance and paste support for mobile ease.', when: 'Two-factor verification', tags: ['.otp-inputs', 'maxlength=1'] },
+        { icon: '💾', cat: 'forms', name: 'Autosave drafts', desc: 'Persist partial input in the background so nothing is lost to a refresh or accident.', when: 'Long forms, editors', tags: ['localStorage', 'debounce'] },
+        { icon: '🖼️', cat: 'forms', name: 'Show / hide password', desc: 'A toggle on password fields lets users verify what they typed — a classic usability win.', when: 'All password inputs', tags: ['.pw-toggle'] },
+
+        { icon: '🎴', cat: 'content', name: 'Card grids', desc: 'Group scannable, equal-height tiles for features, resources and people.', when: 'Marketing sections, catalogs', tags: ['.feature-card', 'auto-fit'] },
+        { icon: '📊', cat: 'content', name: 'Data tables', desc: 'Columnar data with clear headers, hover feedback and inline actions for admin views.', when: 'Users, sessions, logs, invoices', tags: ['.table', 'sticky head'] },
+        { icon: '👥', cat: 'content', name: 'Avatar stacks', desc: 'Overlapping avatars communicate a group at a glance and save horizontal space.', when: 'Teams, participants, mentions', tags: ['.avatar-stack'] },
+        { icon: '📈', cat: 'content', name: 'Stat cards', desc: 'Big headline numbers with labels and a glow, giving the key metrics in one glance.', when: 'Dashboards, overviews', tags: ['.stat-card', '.stat-value'] },
+        { icon: '🧩', cat: 'content', name: 'Feature grids', desc: 'Icon + heading + copy tiles that stay scannable and align on hover.', when: 'Landing and marketing sections', tags: ['.feature-grid', 'reveal'] },
+        { icon: '🕐', cat: 'content', name: 'Timelines', desc: 'A vertical sequence of dated milestones — great for history, changelogs and roadmaps.', when: 'About pages, release notes', tags: ['.timeline', '.tl-item'] },
+
+        { icon: '🔬', cat: 'process', name: 'User research', desc: 'Interviews, surveys and observations that ground every decision in real behaviour.', when: 'Before building anything new', tags: ['interviews', 'surveys'] },
+        { icon: '🗺️', cat: 'process', name: 'Journey mapping', desc: 'A step-by-step timeline of the user\'s experience, highlighting pain points and opportunities.', when: 'Understanding end-to-end flows', tags: ['touchpoints', 'pain points'] },
+        { icon: '🧑', cat: 'process', name: 'Personas', desc: 'Fictional archetypes with goals and frustrations that keep design decisions human.', when: 'Aligning the team on the audience', tags: ['archetypes', 'scenarios'] },
+        { icon: '🖍️', cat: 'process', name: 'Wireframing', desc: 'Low-fidelity structure before pixels — layout, hierarchy and flow only.', when: 'Early exploration', tags: ['lo-fi', 'layout'] },
+        { icon: '🎬', cat: 'process', name: 'Prototyping', desc: 'Clickable, interactive models that test flows and assumptions cheaply before build.', when: 'Validating interactions', tags: ['hi-fi', 'usability test'] },
+        { icon: '🅰️', cat: 'process', name: 'A/B testing', desc: 'Ship two variants to real users and let the data pick the winner.', when: 'CTA copy, layouts, pricing', tags: ['experiment', 'metrics'] },
+        { icon: '🧪', cat: 'process', name: 'Usability heuristics', desc: 'Nielsen\'s 10 rules — visibility, match to reality, user control, consistency, error prevention and more.', when: 'Reviewing any screen', tags: ['Nielsen', 'expert review'] },
+        { icon: '♿', cat: 'process', name: 'Accessibility (WCAG)', desc: 'Contrast, focus order, keyboard support, labels and reduced-motion preferences for everyone.', when: 'Every screen, every time', tags: ['prefers-reduced-motion', 'a11y'] },
+
+        { icon: '🎨', cat: 'foundation', name: 'Design tokens', desc: 'Named variables for color, space, type and radius — the single source of truth for the UI.', when: 'Themes, rebrands, dark mode', tags: [':root', 'CSS vars'] },
+        { icon: '🧬', cat: 'foundation', name: 'Atomic design', desc: 'Atoms, molecules, organisms, templates and pages — a scalable component hierarchy.', when: 'Growing component libraries', tags: ['composition', 'reuse'] },
+        { icon: '📱', cat: 'foundation', name: 'Mobile-first', desc: 'Design for the smallest screen first, then layer up. Forces prioritisation.', when: 'Any responsive product', tags: ['min-width', 'progressive'] },
+        { icon: '🌙', cat: 'foundation', name: 'Dark mode', desc: 'A dark theme done deliberately — not just inverted — with proper contrast and glow control.', when: 'Developer-focused portals', tags: ['glassy', 'aurora'] },
+        { icon: '🔤', cat: 'foundation', name: 'Type scale', desc: 'A defined set of font sizes and weights (display, title, body, caption) that keeps hierarchy consistent.', when: 'Any UI with text', tags: ['clamp()', 'Space Grotesk'] },
+        { icon: '🧮', cat: 'foundation', name: 'Spacing rhythm', desc: 'A small set of spacing steps (0.25rem base) used everywhere instead of arbitrary paddings.', when: 'Layouts and components', tags: ['8pt grid', 'consistent'] }
+      ];
+
+      var list = document.getElementById('pattern-list');
+      var filters = document.getElementById('pattern-filters');
+      var search = document.getElementById('pattern-search');
+      var count = document.getElementById('pattern-count');
+      var state = { cat: 'all', q: '' };
+
+      CATS.forEach(function (c) {
+        var b = document.createElement('button');
+        b.className = 'chip' + (c.id === 'all' ? ' active' : '');
+        b.textContent = c.label;
+        b.dataset.cat = c.id;
+        filters.appendChild(b);
+      });
+
+      function matches(p) {
+        if (state.cat !== 'all' && p.cat !== state.cat) return false;
+        if (!state.q) return true;
+        var q = state.q.toLowerCase();
+        return (p.name + ' ' + p.desc + ' ' + p.tags.join(' ') + ' ' + p.when).toLowerCase().indexOf(q) !== -1;
+      }
+
+      function render() {
+        list.innerHTML = '';
+        var shown = PATTERNS.filter(matches);
+        count.textContent = shown.length + ' of ' + PATTERNS.length + ' patterns';
+        shown.forEach(function (p) {
+          var card = document.createElement('div');
+          card.className = 'pattern-card reveal visible';
+          card.innerHTML =
+            '<div class="p-icon">' + p.icon + '</div>' +
+            '<div>' +
+              '<div class="p-meta"><h3>' + p.name + '</h3><span class="pill pill-soft">' + (CATS.find(function (c) { return c.id === p.cat; }) || {}).label + '</span></div>' +
+              '<p>' + p.desc + '</p>' +
+              '<span class="p-when">Use when — ' + p.when + '</span>' +
+              '<div class="p-tags">' + p.tags.map(function (t) { return '<span>' + t + '</span>'; }).join('') + '</div>' +
+            '</div>';
+          list.appendChild(card);
+        });
+        if (!shown.length) {
+          var none = document.createElement('div');
+          none.className = 'card';
+          none.innerHTML = '<div class="empty">No patterns match — try a different filter or search.</div>';
+          list.appendChild(none);
+        }
+      }
+
+      filters.addEventListener('click', function (e) {
+        var chip = e.target.closest('.chip');
+        if (!chip) return;
+        filters.querySelectorAll('.chip').forEach(function (c) { c.classList.remove('active'); });
+        chip.classList.add('active');
+        state.cat = chip.dataset.cat;
+        render();
+      });
+
+      search.addEventListener('input', function () {
+        state.q = search.value;
+        render();
+      });
+
+      render();
+    })();
+  </script>
+</body>
+</html>

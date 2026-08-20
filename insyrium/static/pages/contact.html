@@ -1,0 +1,147 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b0d1a">
+  <meta name="description" content="Contact the Insyrium team — support, sales and partnerships.">
+  <title>Insyrium — Contact</title>
+  <link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/app.css">
+  <link rel="stylesheet" href="pages.css">
+</head>
+<body>
+  <div class="aurora" aria-hidden="true">
+    <span class="orb orb-1"></span><span class="orb orb-2"></span><span class="orb orb-3"></span>
+  </div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <nav class="pg-nav">
+    <a class="brand" href="index.html"><span class="brand-mark">◈</span><span class="brand-name">Insyrium</span></a>
+    <div class="pg-nav-links">
+      <a class="pg-link" href="features.html">Features</a>
+      <a class="pg-link" href="pricing.html">Pricing</a>
+      <a class="pg-link" href="about.html">About</a>
+      <a class="pg-link" href="faq.html">FAQ</a>
+      <a class="pg-link active" href="contact.html">Contact</a>
+      <a class="pg-link" href="components.html">UI Kit</a>
+    </div>
+    <div class="pg-nav-actions">
+      <a class="btn ghost" href="forgot-password.html"><span>Sign in</span> →</a>
+      <a class="btn primary" href="verify-email.html">Get started</a>
+    </div>
+  </nav>
+
+  <header class="pg-hero center compact">
+    <div class="pg-hero-inner">
+      <span class="eyebrow">Contact</span>
+      <h1>Talk to <span class="gradient-text">the team</span></h1>
+      <p>Support, sales or partnerships — pick a channel and we'll get back to you.</p>
+    </div>
+  </header>
+
+  <section class="pg-section">
+    <div class="contact-card reveal">
+      <form id="contact-form" class="stack">
+        <div class="reg-section">
+          <h3 class="reg-label">Your details</h3>
+          <div class="field">
+            <label for="c-name">Full name</label>
+            <input id="c-name" type="text" placeholder="Jane Doe" required>
+          </div>
+          <div class="row">
+            <div class="field">
+              <label for="c-email">Email</label>
+              <input id="c-email" type="email" placeholder="you@company.com" required>
+            </div>
+            <div class="field">
+              <label for="c-topic">Topic</label>
+              <select id="c-topic">
+                <option>General question</option>
+                <option>Sales / pricing</option>
+                <option>Technical support</option>
+                <option>Partnerships</option>
+                <option>Security report</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="reg-section">
+          <h3 class="reg-label">Message</h3>
+          <div class="field">
+            <label for="c-subject">Subject</label>
+            <input id="c-subject" type="text" placeholder="How can we help?" required>
+          </div>
+          <div class="field">
+            <label for="c-body">Details</label>
+            <textarea id="c-body" rows="5" placeholder="Tell us what's going on…" required></textarea>
+          </div>
+          <label class="check-field">
+            <input type="checkbox" required>
+            <span>I agree to be contacted about this enquiry.</span>
+          </label>
+        </div>
+        <button class="btn primary lg" type="submit" onclick="event.preventDefault(); demoToast('Enquiry received — we\'ll reply soon.', 'success')">Send message <span class="arrow">→</span></button>
+      </form>
+    </div>
+  </section>
+
+  <section class="pg-section">
+    <div class="section-head reveal">
+      <span class="eyebrow">Support channels</span>
+      <h2>Other ways to reach us</h2>
+    </div>
+    <div class="feature-grid">
+      <div class="feature-card reveal">
+        <span class="fc-icon">🕐</span>
+        <h3>Live status</h3>
+        <p>Check the portal health and maintenance window anytime.</p>
+        <p style="margin-top:.6rem"><a class="btn ghost" href="maintenance.html">View status →</a></p>
+      </div>
+      <div class="feature-card reveal delay-1">
+        <span class="fc-icon">💬</span>
+        <h3>Community support</h3>
+        <p>Ask the community — admins and members hang out in the portal chat.</p>
+      </div>
+      <div class="feature-card reveal delay-2">
+        <span class="fc-icon">📧</span>
+        <h3>Email</h3>
+        <p>Prefer email? Write to <strong style="color:var(--text)">hello@insyrium.example</strong>.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="pg-section">
+    <div class="section-head reveal">
+      <span class="eyebrow">Recent enquiries</span>
+      <h2>What people ask about</h2>
+    </div>
+    <div class="card">
+      <div class="table-wrap">
+        <table class="table">
+          <thead>
+            <tr><th>Status</th><th>Topic</th><th>Subject</th><th>Received</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><span class="pill pill-new">New</span></td><td>Sales / pricing</td><td>Enterprise SSO setup</td><td>2h ago</td></tr>
+            <tr><td><span class="pill pill-open">Open</span></td><td>Technical support</td><td>OTP email not arriving</td><td>5h ago</td></tr>
+            <tr><td><span class="pill pill-responded">Responded</span></td><td>General question</td><td>Voice channels on Team plan?</td><td>1d ago</td></tr>
+            <tr><td><span class="pill pill-closed">Closed</span></td><td>Partnerships</td><td>White-label opportunity</td><td>3d ago</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer pg-footer">
+    <span>© <span class="js-year">2026</span> Insyrium · static UI preview</span>
+    <span><a href="index.html">gallery home</a></span>
+  </footer>
+
+  <div id="toasts"></div>
+  <script src="pages.js"></script>
+</body>
+</html>

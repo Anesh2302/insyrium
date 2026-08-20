@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b0d1a">
+  <meta name="description" content="Insyrium settings dashboard preview.">
+  <title>Insyrium — Settings</title>
+  <link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/app.css">
+  <link rel="stylesheet" href="pages.css">
+</head>
+<body class="app-page">
+  <div class="aurora" aria-hidden="true">
+    <span class="orb orb-1"></span><span class="orb orb-2"></span><span class="orb orb-3"></span>
+  </div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <div class="app">
+    <aside class="sidebar">
+      <a class="sidebar-brand" href="index.html" style="text-decoration:none;color:var(--text)">
+        <span class="brand-mark">◈</span><span class="brand-name">Insyrium</span>
+      </a>
+      <nav class="nav-side">
+        <a class="nav-item" href="analytics.html"><span class="nav-icon">📈</span>Analytics</a>
+        <a class="nav-item" href="team.html"><span class="nav-icon">👥</span>Team</a>
+        <a class="nav-item active" href="settings.html"><span class="nav-icon">⚙️</span>Settings</a>
+        <a class="nav-item" href="index.html"><span class="nav-icon">🎨</span>UI gallery</a>
+        <a class="nav-item" href="components.html"><span class="nav-icon">🧩</span>Components</a>
+      </nav>
+      <div class="sidebar-foot">
+        <div class="user-chip">
+          <div class="avatar">JD</div>
+          <div class="user-chip-meta"><span class="u-name">Jane Doe</span><span class="u-role">Platform Admin</span></div>
+        </div>
+        <a class="icon-btn ghost" href="index.html" title="Back to gallery">←</a>
+      </div>
+    </aside>
+
+    <div class="app-main">
+      <header class="topbar">
+        <h2>Settings</h2>
+        <div class="topbar-right">
+          <span class="clock" id="clock"></span>
+          <span class="online-dot" title="Static preview"></span>
+        </div>
+      </header>
+
+      <main class="module-view">
+        <div class="welcome">
+          <div>
+            <span class="eyebrow">Preferences</span>
+            <h1>Workspace settings</h1>
+            <p>Profile, security, notifications and portal-wide configuration.</p>
+          </div>
+          <div class="welcome-badge"><button class="btn ghost" onclick="demoToast('Nothing changed — just a preview!', 'info')">Save changes</button></div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-head"><h3>Profile</h3></div>
+            <form class="stack" onsubmit="event.preventDefault(); demoToast('Profile saved.', 'success')">
+              <div class="field"><label>Full name</label><input value="Jane Doe"></div>
+              <div class="field"><label>Email</label><input type="email" value="jane@company.com"></div>
+              <div class="row">
+                <div class="field"><label>Job title</label><input value="Product designer"></div>
+                <div class="field"><label>Department</label><input value="Design"></div>
+              </div>
+              <div class="field"><label>Organization</label><input value="Company Ltd."></div>
+              <button class="btn primary" type="submit">Update profile</button>
+            </form>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><h3>Security</h3></div>
+            <label class="switch-row"><span><strong>Two-factor authentication</strong><small>Require a one-time code at sign-in.</small></span><input type="checkbox" checked><span class="switch"></span></label>
+            <label class="switch-row"><span><strong>Login alerts</strong><small>Email me when a new device signs in.</small></span><input type="checkbox" checked><span class="switch"></span></label>
+            <label class="switch-row"><span><strong>Session expiry</strong><small>Force re-auth after 24 hours of activity.</small></span><input type="checkbox"><span class="switch"></span></label>
+            <div class="setting-row">
+              <div><strong>Active sessions</strong><p>4 devices are signed in to this account.</p></div>
+              <button class="btn danger-outline" onclick="demoToast('All other sessions revoked.', 'success')">Sign out all</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-head"><h3>Change password</h3></div>
+            <form class="stack" onsubmit="event.preventDefault(); demoToast('Password updated.', 'success')">
+              <div class="field"><label>Current password</label>
+                <div class="pw-wrap"><input type="password" value="password"><button type="button" class="pw-toggle">👁</button></div>
+              </div>
+              <div class="field"><label>New password</label>
+                <div class="pw-wrap"><input type="password"><button type="button" class="pw-toggle">👁</button></div>
+                <div class="pw-meter"><span style="display:block;height:100%;width:80%" class="good"></span></div>
+              </div>
+              <button class="btn primary" type="submit">Update password</button>
+            </form>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><h3>Notifications</h3></div>
+            <label class="switch-row"><span><strong>Community mentions</strong><small>Ping when someone @mentions you.</small></span><input type="checkbox" checked><span class="switch"></span></label>
+            <label class="switch-row"><span><strong>Content reviews</strong><small>Alert when a resource needs review.</small></span><input type="checkbox" checked><span class="switch"></span></label>
+            <label class="switch-row"><span><strong>Weekly digest</strong><small>Summary of portal activity every Monday.</small></span><input type="checkbox"><span class="switch"></span></label>
+          </div>
+        </div>
+
+        <div class="card" style="border-color:rgba(248,113,113,.4)">
+          <div class="card-head"><h3 style="color:var(--danger)">Danger zone</h3></div>
+          <div class="setting-row">
+            <div><strong>Delete workspace</strong><p>Permanently remove the portal and all member data.</p></div>
+            <button class="btn danger" onclick="demoToast('Deletion requires confirmation in the real portal.', 'error')">Delete workspace</button>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div class="preview-ribbon">🖥️ Static dashboard mockup · <a href="index.html">all pages</a></div>
+  <div id="toasts"></div>
+  <script src="pages.js"></script>
+  <script>
+    (function () {
+      var el = document.getElementById('clock');
+      if (!el) return;
+      var t = function () { el.textContent = new Date().toLocaleTimeString(); };
+      t(); setInterval(t, 1000);
+    })();
+  </script>
+</body>
+</html>

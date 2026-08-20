@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b0d1a">
+  <meta name="description" content="Insyrium analytics dashboard preview.">
+  <title>Insyrium — Analytics</title>
+  <link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/app.css">
+  <link rel="stylesheet" href="pages.css">
+</head>
+<body class="app-page">
+  <div class="aurora" aria-hidden="true">
+    <span class="orb orb-1"></span><span class="orb orb-2"></span><span class="orb orb-3"></span>
+  </div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <div class="app">
+    <aside class="sidebar">
+      <a class="sidebar-brand" href="index.html" style="text-decoration:none;color:var(--text)">
+        <span class="brand-mark">◈</span><span class="brand-name">Insyrium</span>
+      </a>
+      <nav class="nav-side">
+        <a class="nav-item active" href="analytics.html"><span class="nav-icon">📈</span>Analytics</a>
+        <a class="nav-item" href="team.html"><span class="nav-icon">👥</span>Team</a>
+        <a class="nav-item" href="settings.html"><span class="nav-icon">⚙️</span>Settings</a>
+        <a class="nav-item" href="index.html"><span class="nav-icon">🎨</span>UI gallery</a>
+        <a class="nav-item" href="components.html"><span class="nav-icon">🧩</span>Components</a>
+      </nav>
+      <div class="sidebar-foot">
+        <div class="user-chip">
+          <div class="avatar">JD</div>
+          <div class="user-chip-meta"><span class="u-name">Jane Doe</span><span class="u-role">Platform Admin</span></div>
+        </div>
+        <a class="icon-btn ghost" href="index.html" title="Back to gallery">←</a>
+      </div>
+    </aside>
+
+    <div class="app-main">
+      <header class="topbar">
+        <h2>Analytics</h2>
+        <div class="topbar-right">
+          <span class="clock" id="clock"></span>
+          <span class="online-dot" title="Static preview"></span>
+        </div>
+      </header>
+
+      <main class="module-view">
+        <div class="welcome">
+          <div>
+            <span class="eyebrow">Overview · last 30 days</span>
+            <h1>Workspace health</h1>
+            <p>How your portal is being used across members, content and security.</p>
+          </div>
+          <div class="welcome-badge"><span class="pill pill-active">Live preview</span></div>
+        </div>
+
+        <div class="stat-grid">
+          <div class="stat-card reveal"><span class="stat-label">Members</span><span class="stat-value">128</span><span class="stat-spark"></span></div>
+          <div class="stat-card reveal delay-1"><span class="stat-label">New this month</span><span class="stat-value">+12</span><span class="stat-spark"></span></div>
+          <div class="stat-card reveal delay-2"><span class="stat-label">Active sessions</span><span class="stat-value">47</span><span class="stat-spark"></span></div>
+          <div class="stat-card reveal delay-3"><span class="stat-label">OTP verifications</span><span class="stat-value">1,204</span><span class="stat-spark"></span></div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-head"><h3>Sign-ins · this week</h3></div>
+            <div class="bar-chart">
+              <div class="bar-col"><div class="bar-fill" style="height:45%"></div><span class="bar-day">Mon</span></div>
+              <div class="bar-col"><div class="bar-fill" style="height:62%"></div><span class="bar-day">Tue</span></div>
+              <div class="bar-col"><div class="bar-fill" style="height:38%"></div><span class="bar-day">Wed</span></div>
+              <div class="bar-col"><div class="bar-fill" style="height:84%"></div><span class="bar-day">Thu</span></div>
+              <div class="bar-col"><div class="bar-fill" style="height:70%"></div><span class="bar-day">Fri</span></div>
+              <div class="bar-col"><div class="bar-fill" style="height:55%"></div><span class="bar-day">Sat</span></div>
+              <div class="bar-col"><div class="bar-fill" style="height:90%"></div><span class="bar-day">Sun</span></div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><h3>Feature adoption</h3></div>
+            <div class="comp-row">
+              <div class="metric-row"><span class="m-label">Email OTP enabled</span><span class="m-val">100%</span></div>
+              <div class="progress ok"><span style="width:100%"></span></div>
+              <div class="metric-row"><span class="m-label">Community active</span><span class="m-val">64%</span></div>
+              <div class="progress"><span style="width:64%"></span></div>
+              <div class="metric-row"><span class="m-label">Content publishing</span><span class="m-val">41%</span></div>
+              <div class="progress warn"><span style="width:41%"></span></div>
+              <div class="metric-row"><span class="m-label">MFA enforced</span><span class="m-val">78%</span></div>
+              <div class="progress"><span style="width:78%"></span></div>
+            </div>
+            <div class="donut-wrap" style="margin-top:1.4rem">
+              <div class="donut" style="background:conic-gradient(#6d5cff 0 64%, #22d3ee 64% 86%, rgba(255,255,255,.08) 86% 100%)">
+                <div class="donut-label"><b>64%</b><span>adoption</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-head"><h3>Activity · last 24h</h3></div>
+            <div class="activity-list">
+              <div class="activity-row"><span class="a-icon">🔐</span><span class="a-label">Sign-ins</span><span class="a-count">142</span></div>
+              <div class="activity-row"><span class="a-icon">🔑</span><span class="a-label">OTP verifications</span><span class="a-count">129</span></div>
+              <div class="activity-row"><span class="a-icon">💬</span><span class="a-label">Messages sent</span><span class="a-count">1,312</span></div>
+              <div class="activity-row"><span class="a-icon">📄</span><span class="a-label">Resources published</span><span class="a-count">9</span></div>
+              <div class="activity-row"><span class="a-icon">⚠️</span><span class="a-label">Failed logins (blocked)</span><span class="a-count">23</span></div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><h3>Top resources</h3></div>
+            <div class="table-wrap">
+              <table class="table">
+                <thead><tr><th>Resource</th><th>Type</th><th>Views</th></tr></thead>
+                <tbody>
+                  <tr><td>Getting started with OTP</td><td><span class="pill pill-type">Article</span></td><td class="mono">842</td></tr>
+                  <tr><td>Security checklist</td><td><span class="pill pill-type">Framework</span></td><td class="mono">611</td></tr>
+                  <tr><td>Admin playbook</td><td><span class="pill pill-type">Template</span></td><td class="mono">388</td></tr>
+                  <tr><td>Quarterly review</td><td><span class="pill pill-type">Research</span></td><td class="mono">204</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div class="preview-ribbon">🖥️ Static dashboard mockup · <a href="index.html">all pages</a></div>
+  <script src="pages.js"></script>
+  <script>
+    (function () {
+      var el = document.getElementById('clock');
+      if (!el) return;
+      var t = function () { el.textContent = new Date().toLocaleTimeString(); };
+      t(); setInterval(t, 1000);
+    })();
+  </script>
+</body>
+</html>

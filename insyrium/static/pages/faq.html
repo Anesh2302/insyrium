@@ -1,0 +1,93 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b0d1a">
+  <meta name="description" content="Insyrium — frequently asked questions.">
+  <title>Insyrium — FAQ</title>
+  <link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/app.css">
+  <link rel="stylesheet" href="pages.css">
+</head>
+<body>
+  <div class="aurora" aria-hidden="true">
+    <span class="orb orb-1"></span><span class="orb orb-2"></span><span class="orb orb-3"></span>
+  </div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <nav class="pg-nav">
+    <a class="brand" href="index.html"><span class="brand-mark">◈</span><span class="brand-name">Insyrium</span></a>
+    <div class="pg-nav-links">
+      <a class="pg-link" href="features.html">Features</a>
+      <a class="pg-link" href="pricing.html">Pricing</a>
+      <a class="pg-link" href="about.html">About</a>
+      <a class="pg-link active" href="faq.html">FAQ</a>
+      <a class="pg-link" href="contact.html">Contact</a>
+      <a class="pg-link" href="patterns.html">Patterns</a>
+      <a class="pg-link" href="components.html">UI Kit</a>
+    </div>
+    <div class="pg-nav-actions">
+      <a class="btn ghost" href="forgot-password.html"><span>Sign in</span> →</a>
+      <a class="btn primary" href="verify-email.html">Get started</a>
+    </div>
+  </nav>
+
+  <header class="pg-hero center compact">
+    <div class="pg-hero-inner">
+      <span class="eyebrow">FAQ</span>
+      <h1>Questions, <span class="gradient-text">answered</span></h1>
+      <p>Accounts, security, community and billing — the things people ask us most.</p>
+    </div>
+  </header>
+
+  <section class="pg-section">
+    <div class="faq-wrap">
+      <div class="faq-item reveal">
+        <button class="faq-q" type="button">What is email OTP sign-in?</button>
+        <div class="faq-a"><p>After entering your password, we send a 6-digit one-time code to your inbox. That second factor confirms it's really you, without installing any authenticator app.</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q" type="button">How do sessions and logout work?</button>
+        <div class="faq-a"><p>Sessions run on short-lived tokens that expire automatically. You can also sign out of every device at once from your profile — instantly revoking all active sessions.</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q" type="button">What happens after too many failed logins?</button>
+        <div class="faq-a"><p>The portal rate-limits attempts and locks the account temporarily after repeated failures. Our brute-force watchdog also alerts administrators to suspicious activity on an account.</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q" type="button">Is the community part of the same sign-in?</button>
+        <div class="faq-a"><p>Yes. Servers, text and voice channels and direct messages all live inside the portal, so one account and one session cover your whole workspace — no extra apps.</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q" type="button">Can I publish content as a regular user?</button>
+        <div class="faq-a"><p>Regular users can submit resources for review. Content admins approve and publish them, which keeps the library curated and trustworthy.</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q" type="button">How does billing work?</button>
+        <div class="faq-a"><p>Plans are billed monthly or yearly, per active user. Enterprise invoices are handled by our sales team — contact us and we'll set up a trial.</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q" type="button">What data does the audit trail keep?</button>
+        <div class="faq-a"><p>Sign-ins, failed attempts, password changes, admin actions and sensitive reads are logged with the actor, target, timestamp and IP. Retention depends on your plan.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-band reveal">
+    <h2>Still have a question?</h2>
+    <p>Our support team usually replies within a few hours.</p>
+    <a class="btn primary lg" href="contact.html">Ask us anything →</a>
+  </section>
+
+  <footer class="footer pg-footer">
+    <span>© <span class="js-year">2026</span> Insyrium · static UI preview</span>
+    <span><a href="index.html">gallery home</a></span>
+  </footer>
+
+  <script src="pages.js"></script>
+</body>
+</html>

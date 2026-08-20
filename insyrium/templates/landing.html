@@ -1,0 +1,735 @@
+{% extends "base.html" %}
+{% block title %}{{ portal_name }} — Sign in{% endblock %}
+{% block body_class %}landing-page{% endblock %}
+
+{% block content %}
+<canvas id="net" aria-hidden="true"></canvas>
+<div class="cursor-glow" id="cursor-glow" aria-hidden="true"></div>
+
+<nav class="nav">
+  <a class="brand" href="/">
+    <span class="brand-mark">◈</span>
+    <span class="brand-name">Insyrium</span>
+  </a>
+  <div class="nav-actions">
+    <button class="btn ghost" id="nav-signin" type="button">Sign in</button>
+    {% if allow_registration %}<button class="btn primary" id="nav-register" type="button">Create account</button>{% endif %}
+  </div>
+</nav>
+
+<header class="hero hero-split">
+  <div class="hero-content reveal">
+    <span class="eyebrow" id="status-line">
+      <span class="dot pulse" id="status-dot"></span> <span id="status-text">Checking portal…</span>
+    </span>
+    <h1>Sign in to<br><span class="gradient-text typewriter" id="typewriter"></span></h1>
+    <p>One secure sign-in for your workspace. Move your mouse, watch the lights — then get back to work.</p>
+    <div class="clock-strip">
+      <span class="clock-badge">🕐 <span id="hero-clock">--:--:--</span></span>
+      <span class="clock-badge" id="server-clock">Server —</span>
+    </div>
+    <div class="micro-line" id="micro-line" aria-live="polite">
+      <span class="ml-greet" id="ml-greet">Hello</span>
+      <span class="ml-dot"></span>
+      <span class="ml-msg" id="ml-msg">All systems go</span>
+    </div>
+  </div>
+
+  <div class="login-panel reveal delay-1">
+    <div class="auth-card">
+      <div class="auth-tabs" role="tablist" aria-label="Portal access">
+        <button class="auth-tab active" id="hp-tab-login" type="button" role="tab" aria-selected="true">Sign in</button>
+        {% if allow_registration %}<button class="auth-tab" id="hp-tab-register" type="button" role="tab" aria-selected="false">Register</button>{% endif %}
+      </div>
+      <!-- STEP 1: password -->
+      <div id="hp-step-password" class="auth-step">
+        <div class="auth-head">
+          <span class="eyebrow">Welcome back</span>
+          <h1>Sign in to the portal</h1>
+          <p>Enter your credentials. You may be asked for a one-time code next.</p>
+        </div>
+
+        {% if error == 'invalid_token' %}
+          <div class="alert error">That verification link is invalid or expired. Please log in or register again.</div>
+        {% elif error == 'missing_token' %}
+          <div class="alert error">Missing verification token.</div>
+        {% elif error == 'registration_closed' %}
+          <div class="alert error">Registration is currently closed. Please contact support.</div>
+        {% endif %}
+        {% if verified == '1' %}
+          <div class="alert success">Your email is verified. You can sign in now.</div>
+        {% endif %}
+
+        <form id="hp-login-form" class="stack">
+          <div class="field">
+            <label for="hp-email">Email</label>
+            <input id="hp-email" name="email" type="email" autocomplete="email" required placeholder="you@company.com" autofocus>
+          </div>
+          <div class="field">
+            <label for="hp-password">Password</label>
+            <div class="pw-wrap">
+              <input id="hp-password" name="password" type="password" autocomplete="current-password" required placeholder="••••••••">
+              <button type="button" class="pw-toggle" data-target="hp-password" aria-label="Show password">👁</button>
+            </div>
+          </div>
+          <p id="hp-login-error" class="form-error" hidden></p>
+          <button id="hp-login-btn" class="btn primary lg" type="submit">Sign in <span class="arrow">→</span></button>
+        </form>
+
+        <p class="auth-alt">
+          {% if allow_registration %}New here? <a href="#" id="hp-to-register">Create an account</a>{% else %}Access is managed by your administrators.{% endif %}
+        </p>
+      </div>
+
+      <!-- STEP 2: OTP -->
+      <div id="hp-step-otp" class="auth-step" hidden>
+        <div class="auth-head">
+          <span class="eyebrow">Two-factor verification</span>
+          <h1>Enter your one-time code</h1>
+          <p class="otp-dest">We sent a 6-digit code to <strong id="hp-otp-target">your inbox</strong>.</p>
+          <p class="otp-expiry" id="hp-otp-expiry" hidden></p>
+        </div>
+
+        <form id="hp-otp-form" class="stack">
+          <div class="otp-inputs" id="hp-otp-boxes">
+            <input type="tel" maxlength="1" inputmode="numeric" pattern="[0-9]" required aria-label="digit 1">
+            <input type="tel" maxlength="1" inputmode="numeric" pattern="[0-9]" required aria-label="digit 2">
+            <input type="tel" maxlength="1" inputmode="numeric" pattern="[0-9]" required aria-label="digit 3">
+            <span class="otp-sep">–</span>
+            <input type="tel" maxlength="1" inputmode="numeric" pattern="[0-9]" required aria-label="digit 4">
+            <input type="tel" maxlength="1" inputmode="numeric" pattern="[0-9]" required aria-label="digit 5">
+            <input type="tel" maxlength="1" inputmode="numeric" pattern="[0-9]" required aria-label="digit 6">
+          </div>
+          <p id="hp-otp-error" class="form-error" hidden></p>
+          <div class="otp-actions">
+            <button id="hp-otp-btn" class="btn primary lg" type="submit">Verify &amp; continue <span class="arrow">→</span></button>
+            <button id="hp-otp-back" class="btn ghost" type="button">← Back</button>
+          </div>
+        </form>
+
+        <p class="auth-alt">
+          Didn't get a code? <a href="#" id="hp-resend-link">Resend code</a>
+          <span class="resend-timer" id="hp-resend-timer" hidden></span>
+        </p>
+      </div>
+
+      {% if allow_registration %}
+      <!-- STEP 3: register -->
+      <div id="hp-step-register" class="auth-step" hidden>
+        <div class="auth-head">
+          <span class="eyebrow">Create account</span>
+          <h1>Create your account</h1>
+          <p>Tell us a little about yourself — it takes under a minute and your details stay private.</p>
+        </div>
+        <form id="hp-register-form" class="stack">
+          <div class="reg-section">
+            <h3 class="reg-label">About you</h3>
+            <div class="field">
+              <label for="hp-r-name">Full name</label>
+              <input id="hp-r-name" name="name" autocomplete="name" required placeholder="Jane Doe">
+              <span class="field-hint">Your display name — how teammates will see you.</span>
+            </div>
+            <div class="field">
+              <label for="hp-r-phone">Phone <span class="opt">optional</span></label>
+              <input id="hp-r-phone" name="phone_number" type="tel" autocomplete="tel" placeholder="+1 555 000 1234">
+              <span class="field-hint">Used for login alerts and account recovery.</span>
+            </div>
+          </div>
+
+          <div class="reg-section">
+            <h3 class="reg-label">Your work</h3>
+            <div class="field">
+              <label for="hp-r-email">Work email</label>
+              <input id="hp-r-email" name="email" type="email" autocomplete="email" required placeholder="you@company.com">
+              <span class="field-hint">We send a verification link to this address before you can sign in.</span>
+            </div>
+            <div class="reg-row">
+              <div class="field">
+                <label for="hp-r-jobtitle">Job title</label>
+                <input id="hp-r-jobtitle" name="job_title" autocomplete="organization-title" placeholder="Product designer">
+              </div>
+              <div class="field">
+                <label for="hp-r-dept">Department</label>
+                <input id="hp-r-dept" name="department" placeholder="Design">
+              </div>
+            </div>
+            <div class="field">
+              <label for="hp-r-org">Organization</label>
+              <input id="hp-r-org" name="organization" autocomplete="organization" placeholder="Company Ltd.">
+              <span class="field-hint">Your company or team name.</span>
+            </div>
+            <div class="field">
+              <label for="hp-r-country">Country</label>
+              <input id="hp-r-country" name="country" autocomplete="country-name" list="hp-country-list" placeholder="Select or type your country">
+              <datalist id="hp-country-list">
+                <option value="United States"></option>
+                <option value="United Kingdom"></option>
+                <option value="Canada"></option>
+                <option value="Australia"></option>
+                <option value="India"></option>
+                <option value="Germany"></option>
+                <option value="France"></option>
+                <option value="Spain"></option>
+                <option value="Netherlands"></option>
+                <option value="United Arab Emirates"></option>
+                <option value="Singapore"></option>
+                <option value="Japan"></option>
+              </datalist>
+            </div>
+          </div>
+
+          <div class="reg-section">
+            <h3 class="reg-label">Account security</h3>
+            <div class="field">
+              <label for="hp-r-password">Password</label>
+              <div class="pw-wrap">
+                <input id="hp-r-password" name="password" type="password" autocomplete="new-password" required placeholder="Create a strong password">
+                <button type="button" class="pw-toggle" data-target="hp-r-password" aria-label="Show password">👁</button>
+              </div>
+              <div class="pw-meter" id="hp-rw-meter"><span id="hp-rw-meter-bar"></span></div>
+              <ul class="pw-reqs" id="hp-pw-reqs">
+                <li data-req="len">At least 8 characters</li>
+                <li data-req="upper">One uppercase letter (A–Z)</li>
+                <li data-req="lower">One lowercase letter (a–z)</li>
+                <li data-req="num">One number (0–9)</li>
+              </ul>
+            </div>
+          </div>
+
+          <label class="check-field">
+            <input type="checkbox" id="hp-r-terms" required>
+            <span>I agree that my email may be used for verification, security alerts, and account notices.</span>
+          </label>
+
+          <p id="hp-register-error" class="form-error" hidden></p>
+          <button id="hp-register-btn" class="btn primary lg" type="submit">Create account <span class="arrow">→</span></button>
+        </form>
+        <p class="auth-alt">Already registered? <a href="#" id="hp-to-login">Sign in</a></p>
+      </div>
+
+      <!-- STEP 4: register done -->
+      <div id="hp-step-register-done" class="auth-step" hidden>
+        <div class="auth-head centered">
+          <div class="big-check">✓</div>
+          <h1>Check your inbox</h1>
+          <p>We sent a verification link to <strong id="hp-register-email"></strong>.<br>
+          Open it to activate your account, then sign in.</p>
+          <button id="hp-register-back" class="btn primary lg" type="button">Go to sign in</button>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</header>
+
+<section class="info reveal" id="features">
+  <div class="info-head">
+    <span class="eyebrow">What you get</span>
+    <h2>One portal, everything protected</h2>
+    <p>Built for teams that care about security — without making sign-in painful.</p>
+  </div>
+  <div class="feature-grid">
+    <div class="feature-card reveal">
+      <span class="fc-icon">🔑</span>
+      <h3>Email OTP sign-in</h3>
+      <p>Passwords plus a one-time code sent to your inbox — a second layer on every login.</p>
+    </div>
+    <div class="feature-card reveal delay-1">
+      <span class="fc-icon">🔐</span>
+      <h3>Short-lived sessions</h3>
+      <p>Access tokens expire fast, and you can revoke every session from any device in one click.</p>
+    </div>
+    <div class="feature-card reveal delay-2">
+      <span class="fc-icon">💬</span>
+      <h3>Community &amp; chat</h3>
+      <p>A built-in community space with direct messages — right inside the portal, no extra apps.</p>
+    </div>
+    <div class="feature-card reveal">
+      <span class="fc-icon">🛡️</span>
+      <h3>Guarded by design</h3>
+      <p>Rate-limited logins, automatic lockouts and a brute-force watchdog that alerts on suspicious activity.</p>
+    </div>
+    <div class="feature-card reveal delay-1">
+      <span class="fc-icon">📜</span>
+      <h3>Full audit trail</h3>
+      <p>Admins see a complete log of sign-ins, changes and sensitive actions for accountability.</p>
+    </div>
+    <div class="feature-card reveal delay-2">
+      <span class="fc-icon">✉️</span>
+      <h3>Verified accounts</h3>
+      <p>Email verification and resendable codes keep accounts honest from day one.</p>
+    </div>
+  </div>
+</section>
+
+<section class="steps reveal" id="how">
+  <div class="info-head">
+    <span class="eyebrow">How it works</span>
+    <h2>Up and running in three steps</h2>
+    <p>No setup headaches — just a secure door into your workspace.</p>
+  </div>
+  <div class="step-row">
+    <div class="step-card reveal">
+      <span class="step-num">1</span>
+      <h3>Create account</h3>
+      <p>Tell us who you are and pick a strong password. It takes under a minute.</p>
+    </div>
+    <div class="step-card reveal delay-1">
+      <span class="step-num">2</span>
+      <h3>Verify your email</h3>
+      <p>Click the verification link we send to activate your account.</p>
+    </div>
+    <div class="step-card reveal delay-2">
+      <span class="step-num">3</span>
+      <h3>Sign in with a code</h3>
+      <p>Enter your password, confirm the one-time code, and you're in.</p>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <span>© <span id="year"></span> {{ portal_name }}</span>
+</footer>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  /* ── Reveal on scroll ── */
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+
+  /* ── Live local clock ── */
+  const clock = document.getElementById('hero-clock');
+  setInterval(() => { clock.textContent = new Date().toLocaleTimeString(); }, 1000);
+
+  /* ── Typewriter heading ── */
+  const words = ['your work', 'your team', 'your portal', 'control', 'today'];
+  const tw = document.getElementById('typewriter');
+  let wi = 0, ci = 0, deleting = false;
+  function tick() {
+    const word = words[wi];
+    ci += deleting ? -1 : 1;
+    tw.textContent = word.slice(0, ci);
+    let delay = deleting ? 45 : 90;
+    if (!deleting && ci === word.length) { delay = 1600; deleting = true; }
+    else if (deleting && ci === 0) { deleting = false; wi = (wi + 1) % words.length; delay = 350; }
+    setTimeout(tick, delay);
+  }
+  tick();
+
+  /* ── Portal status + server clock ── */
+  async function checkStatus() {
+    const dot = document.getElementById('status-dot');
+    const text = document.getElementById('status-text');
+    const srv = document.getElementById('server-clock');
+    try {
+      const res = await fetch('/api/public/status');
+      const json = await res.json();
+      const s = json.status || {};
+      if (s.maintenance_mode) {
+        dot.className = 'dot amber'; text.textContent = 'Portal is in maintenance';
+      } else {
+        dot.className = 'dot pulse'; text.textContent = 'Portal online — sign in to continue';
+      }
+      srv.textContent = `Server ${new Date(s.server_time).toLocaleTimeString()}`;
+    } catch {
+      dot.className = 'dot danger'; text.textContent = 'Portal status unavailable';
+    }
+  }
+  checkStatus();
+  setInterval(checkStatus, 30000);
+
+  /* ── Live greeting + rotating micro-message ── */
+  const mlGreet = document.getElementById('ml-greet');
+  const mlMsg = document.getElementById('ml-msg');
+  function mlGreeting() {
+    const h = new Date().getHours();
+    if (h < 6) return 'Up late';
+    if (h < 12) return 'Good morning';
+    if (h < 18) return 'Good afternoon';
+    return 'Good evening';
+  }
+  mlGreet.textContent = mlGreeting();
+  setInterval(() => { mlGreet.textContent = mlGreeting(); }, 60000);
+  const mlTips = [
+    'All systems go',
+    'Sign in once, stay signed in',
+    'One-time codes expire in 5 minutes',
+    'You can sign out from any device',
+    'Sessions run on short-lived tokens',
+    'Keep your inbox handy for codes',
+  ];
+  let mlI = 0;
+  setInterval(() => {
+    mlI = (mlI + 1) % mlTips.length;
+    mlMsg.style.opacity = '0';
+    setTimeout(() => {
+      mlMsg.textContent = mlTips[mlI];
+      mlMsg.style.opacity = '1';
+    }, 320);
+  }, 4200);
+
+  /* ── Cursor glow ── */
+  const glow = document.getElementById('cursor-glow');
+  let gx = innerWidth / 2, gy = innerHeight / 2, txx = gx, tyy = gy;
+  window.addEventListener('mousemove', (e) => { txx = e.clientX; tyy = e.clientY; glow.style.opacity = '1'; });
+  (function glowLoop() {
+    gx += (txx - gx) * 0.12; gy += (tyy - gy) * 0.12;
+    glow.style.transform = `translate(${gx - 180}px, ${gy - 180}px)`;
+    requestAnimationFrame(glowLoop);
+  })();
+
+  /* ── Interactive particle network ── */
+  const canvas = document.getElementById('net');
+  const ctx = canvas.getContext('2d');
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let W = 0, H = 0, pts = [];
+  const mouse = { x: -9999, y: -9999 };
+
+  function rand(min, max) { return Math.random() * (max - min) + min; }
+
+  function resize() {
+    W = canvas.width = innerWidth;
+    H = canvas.height = innerHeight;
+  }
+  function seed() {
+    pts = [];
+    const count = Math.min(90, Math.max(40, Math.floor(innerWidth / 18)));
+    for (let i = 0; i < count; i++) {
+      pts.push({ x: Math.random() * W, y: Math.random() * H, vx: rand(-0.4, 0.4), vy: rand(-0.4, 0.4), r: rand(1.2, 2.6) });
+    }
+  }
+
+  resize(); seed();
+  window.addEventListener('resize', () => { resize(); if (!reduced) seed(); });
+
+  window.addEventListener('mousemove', (e) => { mouse.x = e.clientX; mouse.y = e.clientY; }, { passive: true });
+  window.addEventListener('mouseout', () => { mouse.x = -9999; mouse.y = -9999; });
+
+  function burst(x, y) {
+    const n = 16;
+    for (let i = 0; i < n; i++) {
+      const ang = (i / n) * Math.PI * 2 + rand(-0.2, 0.2);
+      const sp = rand(1.5, 4.2);
+      pts.push({ x, y, vx: Math.cos(ang) * sp, vy: Math.sin(ang) * sp, r: rand(1, 2.4), life: 1, decay: rand(0.025, 0.06) });
+    }
+    if (pts.length > 260) pts.splice(0, pts.length - 260);
+  }
+  window.addEventListener('click', (e) => { if (!reduced) burst(e.clientX, e.clientY); });
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    const live = [];
+    for (const p of pts) {
+      if (p.life !== undefined) {
+        p.life -= p.decay;
+        if (p.life <= 0) continue;
+      }
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < 0 || p.x > W) p.vx *= -1;
+      if (p.y < 0 || p.y > H) p.vy *= -1;
+      const dx = p.x - mouse.x, dy = p.y - mouse.y;
+      const d2 = dx * dx + dy * dy;
+      if (d2 < 15000 && d2 > 0.01) { const d = Math.sqrt(d2); p.x += (dx / d) * 0.7; p.y += (dy / d) * 0.7; }
+      live.push(p);
+    }
+    pts = live;
+    for (let i = 0; i < pts.length; i++) {
+      const a = pts[i];
+      ctx.beginPath();
+      ctx.arc(a.x, a.y, a.r, 0, Math.PI * 2);
+      ctx.fillStyle = a.life !== undefined ? `rgba(244, 114, 182, ${a.life})` : 'rgba(139, 132, 255, 0.7)';
+      ctx.fill();
+      for (let j = i + 1; j < pts.length; j++) {
+        const b = pts[j];
+        const dx = a.x - b.x, dy = a.y - b.y;
+        const d = Math.hypot(dx, dy);
+        if (d < 120) {
+          ctx.beginPath();
+          ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y);
+          ctx.strokeStyle = `rgba(109, 92, 255, ${(1 - d / 120) * 0.28})`;
+          ctx.lineWidth = 1;
+          ctx.stroke();
+        }
+      }
+      const dm = Math.hypot(a.x - mouse.x, a.y - mouse.y);
+      if (dm < 170) {
+        ctx.beginPath();
+        ctx.moveTo(a.x, a.y); ctx.lineTo(mouse.x, mouse.y);
+        ctx.strokeStyle = `rgba(34, 211, 238, ${(1 - dm / 170) * 0.5})`;
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      }
+    }
+    if (!reduced) requestAnimationFrame(draw);
+  }
+  draw();
+
+  /* ── Inline sign-in flow (password → OTP) ── */
+  const hpErr = { generic: 'Invalid email or password' };
+  let hpEmail = '', hpChallenge = null;
+
+  function hpShow(name) {
+    const steps = { password: 'hp-step-password', otp: 'hp-step-otp', register: 'hp-step-register', done: 'hp-step-register-done' };
+    for (const id of Object.values(steps)) {
+      const el = document.getElementById(id);
+      if (!el) continue;
+      if (id === steps[name]) {
+        el.classList.remove('step-out', 'step-in');
+        el.hidden = false;
+        requestAnimationFrame(() => el.classList.add('step-in'));
+        setTimeout(() => el.classList.remove('step-in'), 400);
+      } else {
+        el.classList.remove('step-in');
+        el.hidden = true;
+      }
+    }
+  }
+
+  function hpShowTab(name) {
+    const login = name === 'login';
+    const tabLogin = document.getElementById('hp-tab-login');
+    const tabReg = document.getElementById('hp-tab-register');
+    tabLogin.classList.toggle('active', login);
+    tabLogin.setAttribute('aria-selected', login);
+    if (tabReg) { tabReg.classList.toggle('active', !login); tabReg.setAttribute('aria-selected', !login); }
+    hpShow(login ? 'password' : 'register');
+    setTimeout(() => {
+      const f = login ? document.getElementById('hp-email') : document.getElementById('hp-r-name');
+      if (f) f.focus({ preventScroll: true });
+    }, 220);
+  }
+
+  document.getElementById('hp-login-form').addEventListener('submit', async (ev) => {
+    ev.preventDefault();
+    const err = document.getElementById('hp-login-error');
+    const btn = document.getElementById('hp-login-btn');
+    err.hidden = true;
+    btn.disabled = true; btn.textContent = 'Verifying…';
+    try {
+      const res = await Insyrium.api('/api/auth/login', {
+        method: 'POST',
+        body: {
+          email: document.getElementById('hp-email').value,
+          password: document.getElementById('hp-password').value,
+        },
+      });
+      const json = res.data;
+      if (res.status === 202 && json.otp_required) {
+        hpEmail = document.getElementById('hp-email').value.trim().toLowerCase();
+        hpChallenge = json;
+        document.getElementById('hp-otp-target').textContent = json.masked_target || 'your inbox';
+        hpShow('otp');
+        setTimeout(() => document.querySelector('#hp-otp-boxes input').focus({ preventScroll: true }), 220);
+        hpStartResendTimer();
+        hpStartExpiryCountdown();
+        return;
+      }
+      if (res.ok && json.access_token) { Insyrium.auth.complete(json.access_token, json.user); return; }
+      err.textContent = json.error || hpErr.generic;
+      err.hidden = false;
+      if (res.status === 429) Insyrium.toast(json.error, 'error');
+    } catch {
+      err.textContent = 'Network error. Please try again.';
+      err.hidden = false;
+    } finally {
+      btn.disabled = false; btn.textContent = 'Sign in →';
+    }
+  });
+
+  const hpBoxes = [...document.querySelectorAll('#hp-otp-boxes input')];
+  hpBoxes.forEach((box, i) => {
+    box.addEventListener('input', () => { if (box.value && i < hpBoxes.length - 1) hpBoxes[i + 1].focus(); });
+    box.addEventListener('keydown', (e) => { if (e.key === 'Backspace' && !box.value && i > 0) hpBoxes[i - 1].focus(); });
+    box.addEventListener('paste', (e) => {
+      e.preventDefault();
+      const digits = (e.clipboardData.getData('text') || '').replace(/\D/g, '').slice(0, 6);
+      digits.split('').forEach((d, j) => { if (hpBoxes[j]) hpBoxes[j].value = d; });
+      hpBoxes[Math.min(digits.length, 5)].focus();
+    });
+  });
+
+  document.getElementById('hp-otp-form').addEventListener('submit', async (ev) => {
+    ev.preventDefault();
+    const code = hpBoxes.map((b) => b.value).join('');
+    if (code.length !== 6) return;
+    document.getElementById('hp-otp-boxes').classList.remove('otp-invalid');
+    const err = document.getElementById('hp-otp-error');
+    const btn = document.getElementById('hp-otp-btn');
+    err.hidden = true;
+    btn.disabled = true; btn.textContent = 'Checking…';
+    try {
+      const res = await Insyrium.api('/api/auth/verify-otp', {
+        method: 'POST', body: { email: hpEmail, code },
+      });
+      const json = res.data;
+      if (res.ok && json.access_token) { Insyrium.auth.complete(json.access_token, json.user); return; }
+      err.textContent = json.error || 'Invalid or expired code';
+      err.hidden = false;
+      hpBoxes.forEach((b) => { b.value = ''; });
+      hpBoxes[0].focus();
+    } catch {
+      err.textContent = 'Network error. Please try again.';
+      err.hidden = false;
+    } finally {
+      btn.disabled = false; btn.textContent = 'Verify & continue →';
+    }
+  });
+
+  document.getElementById('hp-otp-back').addEventListener('click', () => {
+    clearInterval(hpExpiryId);
+    const el = document.getElementById('hp-otp-expiry');
+    el.hidden = true; el.classList.remove('expired');
+    document.getElementById('hp-otp-boxes').classList.remove('otp-invalid');
+    hpShow('password');
+  });
+  document.getElementById('hp-resend-link').addEventListener('click', async (e) => {
+    e.preventDefault();
+    const link = e.target;
+    link.textContent = 'Sending…';
+    try {
+      const res = await Insyrium.api('/api/auth/resend-otp', { method: 'POST', body: { email: hpEmail, code: '000000' } });
+      const json = res.data;
+      if (res.ok) {
+        hpChallenge = json;
+        document.getElementById('hp-otp-target').textContent = json.masked_target || 'your inbox';
+        Insyrium.toast('A new code has been sent.', 'success');
+        hpStartResendTimer();
+        hpStartExpiryCountdown();
+      } else Insyrium.toast(json.error || 'Could not resend.', 'error');
+    } catch {
+      Insyrium.toast('Network error.', 'error');
+    } finally {
+      link.textContent = 'Resend code';
+    }
+  });
+
+  let hpTimerId = null;
+  function hpStartResendTimer() {
+    clearInterval(hpTimerId);
+    const timer = document.getElementById('hp-resend-timer');
+    const link = document.getElementById('hp-resend-link');
+    let left = 30;
+    link.style.pointerEvents = 'none'; link.style.opacity = '.5';
+    timer.hidden = false;
+    timer.textContent = ` (${left}s)`;
+    hpTimerId = setInterval(() => {
+      left -= 1;
+      if (left <= 0) {
+        clearInterval(hpTimerId);
+        timer.hidden = true;
+        link.style.pointerEvents = ''; link.style.opacity = '';
+      } else timer.textContent = ` (${left}s)`;
+    }, 1000);
+  }
+
+  let hpExpiryId = null;
+  function hpStartExpiryCountdown() {
+    clearInterval(hpExpiryId);
+    const el = document.getElementById('hp-otp-expiry');
+    const box = document.getElementById('hp-otp-boxes');
+    const link = document.getElementById('hp-resend-link');
+    let left = Math.max(0, parseInt((hpChallenge && hpChallenge.expires_in) || 300, 10));
+    const fmt = (s) => `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
+    function tick() {
+      if (left <= 0) {
+        clearInterval(hpExpiryId);
+        el.classList.add('expired');
+        el.innerHTML = 'This code has expired — request a new one.';
+        box.classList.add('otp-invalid');
+        link.style.pointerEvents = ''; link.style.opacity = '';
+      } else {
+        el.innerHTML = `Code expires in <b>${fmt(left)}</b>`;
+        el.classList.remove('expired');
+      }
+      left -= 1;
+    }
+    el.hidden = false;
+    tick();
+    hpExpiryId = setInterval(tick, 1000);
+  }
+
+  /* ── Inline registration (create account) ── */
+  const registerForm = document.getElementById('hp-register-form');
+  if (registerForm) {
+    const rpw = document.getElementById('hp-r-password');
+    const rbar = document.getElementById('hp-rw-meter-bar');
+    const reqs = { len: /^.{8,}$/, upper: /[A-Z]/, lower: /[a-z]/, num: /\d/ };
+    rpw.addEventListener('input', () => {
+      const v = rpw.value;
+      let score = 0;
+      if (v.length >= 8) score++;
+      if (/[A-Z]/.test(v)) score++;
+      if (/[a-z]/.test(v)) score++;
+      if (/\d/.test(v)) score++;
+      if (v.length >= 12) score++;
+      rbar.className = score >= 4 ? 'strong' : score >= 3 ? 'good' : score >= 2 ? 'ok' : 'weak';
+      rbar.style.width = `${score * 20}%`;
+      for (const [key, re] of Object.entries(reqs)) {
+        document.querySelector(`#hp-pw-reqs li[data-req="${key}"]`).classList.toggle('ok', re.test(v));
+      }
+    });
+
+    document.getElementById('hp-to-register').addEventListener('click', (e) => { e.preventDefault(); hpShowTab('register'); });
+    document.getElementById('hp-to-login').addEventListener('click', (e) => { e.preventDefault(); hpShowTab('login'); });
+
+    document.getElementById('hp-register-form').addEventListener('submit', async (ev) => {
+      ev.preventDefault();
+      const err = document.getElementById('hp-register-error');
+      const btn = document.getElementById('hp-register-btn');
+      err.hidden = true;
+      btn.disabled = true; btn.textContent = 'Creating…';
+      const data = {
+        name: document.getElementById('hp-r-name').value,
+        email: document.getElementById('hp-r-email').value,
+        phone_number: document.getElementById('hp-r-phone').value,
+        organization: document.getElementById('hp-r-org').value,
+        job_title: document.getElementById('hp-r-jobtitle').value,
+        department: document.getElementById('hp-r-dept').value,
+        country: document.getElementById('hp-r-country').value,
+        password: document.getElementById('hp-r-password').value,
+      };
+      try {
+        const res = await Insyrium.api('/api/auth/register', { method: 'POST', body: data });
+        const json = res.data;
+        if (res.ok) {
+          document.getElementById('hp-register-email').textContent = data.email;
+          Insyrium.toast(json.message || 'Account created.', 'success');
+          hpShow('done');
+          return;
+        }
+        err.textContent = json.details
+          ? Object.values(json.details).flat().join(' · ')
+          : (json.error || 'Could not create account.');
+        err.hidden = false;
+      } catch {
+        err.textContent = 'Network error. Please try again.';
+        err.hidden = false;
+      } finally {
+        btn.disabled = false; btn.textContent = 'Create account →';
+      }
+    });
+
+    document.getElementById('hp-register-back').addEventListener('click', () => hpShowTab('login'));
+  }
+
+  /* ── Nav buttons: same inline panel, no separate pages ── */
+  function goAuthTab(name) {
+    hpShowTab(name);
+    document.querySelector('.login-panel').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+  document.getElementById('nav-signin').addEventListener('click', () => goAuthTab('login'));
+  const navRegister = document.getElementById('nav-register');
+  if (navRegister) navRegister.addEventListener('click', () => goAuthTab('register'));
+
+  const urlAction = new URLSearchParams(location.search).get('action');
+  if (urlAction === 'register' && document.getElementById('hp-tab-register')) hpShowTab('register');
+  else if (urlAction === 'login') hpShowTab('login');
+</script>
+{% endblock %}

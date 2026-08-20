@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b0d1a">
+  <meta name="description" content="Something went wrong on the server — Insyrium.">
+  <title>Insyrium — 500</title>
+  <link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/app.css">
+  <link rel="stylesheet" href="pages.css">
+</head>
+<body>
+  <div class="aurora" aria-hidden="true">
+    <span class="orb orb-1"></span><span class="orb orb-2"></span><span class="orb orb-3"></span>
+  </div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <nav class="pg-nav">
+    <a class="brand" href="index.html"><span class="brand-mark">◈</span><span class="brand-name">Insyrium</span></a>
+    <div class="pg-nav-links"><a class="pg-link" href="index.html">← gallery home</a></div>
+    <div class="pg-nav-actions">
+      <a class="btn ghost" href="forgot-password.html">Sign in →</a>
+    </div>
+  </nav>
+
+  <div class="auth-page">
+    <div class="auth-wrap">
+      <div class="auth-card centered reveal">
+        <div class="status-icon lock">⚠️</div>
+        <span class="eyebrow">Server error</span>
+        <h1>Something went wrong</h1>
+        <p>An unexpected error hit the portal. Your data is safe — the team has already been alerted.</p>
+
+        <div class="clock-strip" style="justify-content:center">
+          <span class="clock-badge">Ref <span class="mono">INS-7F3A9C-2026</span></span>
+          <span class="clock-badge"><span class="dot danger"></span> Incident logged</span>
+        </div>
+
+        <div class="utility-actions">
+          <a class="btn primary" href="index.html">Try again →</a>
+          <a class="btn ghost" href="contact.html">Report it</a>
+        </div>
+        <p class="auth-alt">You can also try <a href="maintenance.html">checking portal status</a>.</p>
+      </div>
+      <p class="utility-alt">HTTP 500 · auto-refresh in <span class="mono" id="retry-n">12</span>s</p>
+    </div>
+  </div>
+
+  <script src="pages.js"></script>
+  <script>
+    (function () {
+      var n = 12, el = document.getElementById('retry-n');
+      var t = setInterval(function () {
+        n--; if (n <= 0) { clearInterval(t); return; }
+        el.textContent = n;
+      }, 1000);
+    })();
+  </script>
+</body>
+</html>

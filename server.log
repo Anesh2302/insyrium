@@ -1,0 +1,48 @@
+ * Serving Flask app 'insyrium'
+ * Debug mode: on
+
+========================================================================
+  [MAIL · DEV CONSOLE] to: simonpetercys@gmail.com
+  subject: Insyrium Portal — your login code
+========================================================================
+Your one-time code is: 973622
+
+It expires in 5 minutes and can only be used once. If you didn't request it, you can ignore this message.
+========================================================================
+
+
+========================================================================
+  [MAIL · DEV CONSOLE] to: simonpetercys@gmail.com
+  subject: Insyrium Portal — your login code
+========================================================================
+Your one-time code is: 926537
+
+It expires in 5 minutes and can only be used once. If you didn't request it, you can ignore this message.
+========================================================================
+
+
+========================================================================
+  [MAIL · DEV CONSOLE] to: simonpetercys@gmail.com
+  subject: [ALERT] Possible attack on simonpetercys@gmail.com
+========================================================================
+4 failed logins / OTP attempts for simonpetercys@gmail.com in the last 24 hours.
+========================================================================
+
+
+========================================================================
+  [MAIL · DEV CONSOLE] to: simonpetercys@gmail.com
+  subject: [ALERT] Possible attack on e2e-test@insyrium.com
+========================================================================
+7 failed logins / OTP attempts for e2e-test@insyrium.com in the last 24 hours.
+========================================================================
+
+
+========================================================================
+  [MAIL · DEV CONSOLE] to: simonpetercys@gmail.com
+  subject: Insyrium Portal — your login code
+========================================================================
+Your one-time code is: 913159
+
+It expires in 5 minutes and can only be used once. If you didn't request it, you can ignore this message.
+========================================================================
+

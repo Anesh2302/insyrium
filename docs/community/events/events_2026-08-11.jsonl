@@ -1,0 +1,43 @@
+{"ts": "2026-08-11T12:13:03.583782Z", "event": "server_created", "ip": "127.0.0.1", "actor_id": 1, "target": 1, "name": "Test Server"}
+{"ts": "2026-08-11T12:13:29.617308Z", "event": "channel_created", "ip": "127.0.0.1", "actor_id": 1, "target": 1, "channel": "general"}
+{"ts": "2026-08-11T14:46:10.992125Z", "event": "server_created", "ip": "127.0.0.1", "actor_id": 1, "target": 3, "name": "welcome"}
+{"ts": "2026-08-11T14:46:36.391810Z", "event": "channel_created", "ip": "127.0.0.1", "actor_id": 1, "target": 3, "channel": "welcome"}
+{"ts": "2026-08-11T15:46:12.110365Z", "event": "member_joined", "ip": "127.0.0.1", "actor_id": 6, "target": 2, "server": "Insyrium Community"}
+{"ts": "2026-08-11T15:46:12.190170Z", "event": "message_blocked", "ip": "127.0.0.1", "actor_id": 6, "target": 2, "channel": "welcome", "reason": "free\\s+(discord\\s+)?nitro; nitro\\s+(gift|code|generator)"}
+{"ts": "2026-08-11T15:46:59.637228Z", "event": "channel_created", "ip": "127.0.0.1", "actor_id": 1, "target": 2, "channel": "test-ch"}
+{"ts": "2026-08-11T15:46:59.720395Z", "event": "channel_deleted", "ip": "127.0.0.1", "actor_id": 1, "target": 2, "channel": "test-ch"}
+{"ts": "2026-08-11T15:46:59.796280Z", "event": "message_reported", "ip": "127.0.0.1", "actor_id": 1, "target": 2, "message_id": 7, "reason": "test report"}
+{"ts": "2026-08-11T15:46:59.859828Z", "event": "member_muted", "ip": "127.0.0.1", "actor_id": 1, "target": 3, "server": 2, "until_minutes": 30, "reason": "test"}
+{"ts": "2026-08-11T15:47:13.905930Z", "event": "message_deleted", "ip": "127.0.0.1", "actor_id": 1, "target": 2, "message_id": 8}
+{"ts": "2026-08-11T15:51:49.807572Z", "event": "server_settings", "ip": "127.0.0.1", "actor_id": 1, "target": 2, "changes": {"description": "updated desc"}}
+{"ts": "2026-08-11T15:51:49.865728Z", "event": "role_created", "ip": "127.0.0.1", "actor_id": 1, "target": 2, "role": "Moderator", "permissions": ["moderate", "kick", "mute", "manage_messages"]}
+{"ts": "2026-08-11T15:51:49.998523Z", "event": "report_resolved", "ip": "127.0.0.1", "actor_id": 1, "report_id": 1, "server": 2}
+{"ts": "2026-08-11T16:37:36.854243Z", "event": "server_created", "ip": "127.0.0.1", "actor_id": 6, "target": 4, "name": "Smoke Test Server"}
+{"ts": "2026-08-11T16:37:37.470011Z", "event": "message_reported", "ip": "127.0.0.1", "actor_id": 6, "target": 2, "message_id": 9, "reason": "smoke report"}
+{"ts": "2026-08-11T16:37:37.575645Z", "event": "message_deleted", "ip": "127.0.0.1", "actor_id": 6, "target": 2, "message_id": 9}
+{"ts": "2026-08-11T16:37:37.654903Z", "event": "message_blocked", "ip": "127.0.0.1", "actor_id": 6, "target": 2, "channel": "welcome", "reason": "free\\s+(discord\\s+)?nitro; nitro\\s+(gift|code|generator)"}
+{"ts": "2026-08-11T16:37:37.958626Z", "event": "channel_created", "ip": "127.0.0.1", "actor_id": 1, "target": 2, "channel": "smoke-ch"}
+{"ts": "2026-08-11T16:37:38.056621Z", "event": "channel_deleted", "ip": "127.0.0.1", "actor_id": 1, "target": 2, "channel": "smoke-ch"}
+{"ts": "2026-08-11T16:37:38.121891Z", "event": "server_settings", "ip": "127.0.0.1", "actor_id": 1, "target": 2, "changes": {"description": "smoke"}}
+{"ts": "2026-08-11T16:37:38.170180Z", "event": "role_created", "ip": "127.0.0.1", "actor_id": 1, "target": 2, "role": "SmokeMod", "permissions": ["moderate"]}
+{"ts": "2026-08-11T16:37:38.251359Z", "event": "role_updated", "ip": "127.0.0.1", "actor_id": 1, "target": 2, "role": "SmokeMod2"}
+{"ts": "2026-08-11T16:37:38.402250Z", "event": "member_muted", "ip": "127.0.0.1", "actor_id": 1, "target": 6, "server": 2, "until_minutes": 30, "reason": "smoke"}
+{"ts": "2026-08-11T16:37:38.517735Z", "event": "member_banned", "ip": "127.0.0.1", "actor_id": 1, "target": 6, "server": 2, "reason": "smoke"}
+{"ts": "2026-08-11T16:37:38.656849Z", "event": "member_joined", "ip": "127.0.0.1", "actor_id": 6, "target": 2, "server": "Insyrium Community"}
+{"ts": "2026-08-11T16:37:38.782558Z", "event": "report_resolved", "ip": "127.0.0.1", "actor_id": 1, "report_id": 2, "server": 2}
+{"ts": "2026-08-11T16:37:39.451150Z", "event": "server_verified", "ip": "127.0.0.1", "actor_id": 1, "target": 2, "name": "Insyrium Community", "verified": true}
+{"ts": "2026-08-11T16:38:47.188431Z", "event": "server_created", "ip": "127.0.0.1", "actor_id": 6, "target": 5, "name": "Smoke Test Server"}
+{"ts": "2026-08-11T16:38:47.627338Z", "event": "message_reported", "ip": "127.0.0.1", "actor_id": 6, "target": 2, "message_id": 11, "reason": "smoke report"}
+{"ts": "2026-08-11T16:38:47.680468Z", "event": "message_deleted", "ip": "127.0.0.1", "actor_id": 6, "target": 2, "message_id": 11}
+{"ts": "2026-08-11T16:38:47.937522Z", "event": "channel_created", "ip": "127.0.0.1", "actor_id": 1, "target": 2, "channel": "smoke-ch"}
+{"ts": "2026-08-11T16:38:48.056453Z", "event": "channel_deleted", "ip": "127.0.0.1", "actor_id": 1, "target": 2, "channel": "smoke-ch"}
+{"ts": "2026-08-11T16:38:48.105802Z", "event": "server_settings", "ip": "127.0.0.1", "actor_id": 1, "target": 2, "changes": {"description": "smoke"}}
+{"ts": "2026-08-11T16:38:48.144809Z", "event": "role_created", "ip": "127.0.0.1", "actor_id": 1, "target": 2, "role": "SmokeMod", "permissions": ["moderate"]}
+{"ts": "2026-08-11T16:38:48.216274Z", "event": "role_updated", "ip": "127.0.0.1", "actor_id": 1, "target": 2, "role": "SmokeMod2"}
+{"ts": "2026-08-11T16:38:48.286076Z", "event": "member_muted", "ip": "127.0.0.1", "actor_id": 1, "target": 6, "server": 2, "until_minutes": 30, "reason": "smoke"}
+{"ts": "2026-08-11T16:38:48.365437Z", "event": "member_banned", "ip": "127.0.0.1", "actor_id": 1, "target": 6, "server": 2, "reason": "smoke"}
+{"ts": "2026-08-11T16:38:48.440322Z", "event": "member_joined", "ip": "127.0.0.1", "actor_id": 6, "target": 2, "server": "Insyrium Community"}
+{"ts": "2026-08-11T16:38:48.567707Z", "event": "member_kicked", "ip": "127.0.0.1", "actor_id": 1, "target": 6, "server": 2}
+{"ts": "2026-08-11T16:38:48.650340Z", "event": "member_joined", "ip": "127.0.0.1", "actor_id": 6, "target": 2, "server": "Insyrium Community"}
+{"ts": "2026-08-11T16:38:48.766941Z", "event": "report_resolved", "ip": "127.0.0.1", "actor_id": 1, "report_id": 3, "server": 2}
+{"ts": "2026-08-11T16:38:49.294646Z", "event": "server_verified", "ip": "127.0.0.1", "actor_id": 1, "target": 2, "name": "Insyrium Community", "verified": true}

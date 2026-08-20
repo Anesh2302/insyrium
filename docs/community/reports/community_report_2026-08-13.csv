@@ -1,0 +1,3 @@
+ts,event,actor_id,target,details,ip
+2026-08-13T04:58:54.025278Z,server_created,15,10,"{""name"": ""E2E Server""}",127.0.0.1
+2026-08-13T04:58:54.318473Z,channel_created,15,10,"{""channel"": ""general""}",127.0.0.1

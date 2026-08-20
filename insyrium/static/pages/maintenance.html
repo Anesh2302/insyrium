@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b0d1a">
+  <meta name="description" content="Insyrium is temporarily in maintenance.">
+  <title>Insyrium — Maintenance</title>
+  <link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/app.css">
+  <link rel="stylesheet" href="pages.css">
+</head>
+<body>
+  <div class="aurora" aria-hidden="true">
+    <span class="orb orb-1"></span><span class="orb orb-2"></span><span class="orb orb-3"></span>
+  </div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <nav class="pg-nav">
+    <a class="brand" href="index.html"><span class="brand-mark">◈</span><span class="brand-name">Insyrium</span></a>
+    <div class="pg-nav-links"><a class="pg-link" href="index.html">← gallery home</a></div>
+    <div class="pg-nav-actions">
+      <a class="btn ghost" href="forgot-password.html">Sign in →</a>
+    </div>
+  </nav>
+
+  <div class="auth-page">
+    <div class="auth-wrap">
+      <div class="auth-card centered reveal">
+        <div class="status-icon warn">🛠️</div>
+        <span class="eyebrow">Scheduled maintenance</span>
+        <h1>Be right back</h1>
+        <p>The portal is getting a quick tune-up. New sign-ins are paused until we're done — usually under 30 minutes.</p>
+
+        <div class="clock-strip" style="justify-content:center">
+          <span class="clock-badge"><span class="dot amber"></span> Maintenance in progress</span>
+          <span class="clock-badge">🕐 Back by <span class="mono">18:30 UTC</span></span>
+        </div>
+
+        <div class="utility-actions">
+          <button class="btn ghost" onclick="demoToast('We\'ll email you when the portal is back.', 'info')">Notify me when online</button>
+          <a class="btn primary" href="maintenance.html">Refresh status</a>
+        </div>
+        <p class="auth-alt">Your sessions and data are safe — nothing is being deleted.</p>
+      </div>
+      <p class="utility-alt">Static preview — demo interaction only.</p>
+    </div>
+  </div>
+
+  <div id="toasts"></div>
+  <script src="pages.js"></script>
+</body>
+</html>

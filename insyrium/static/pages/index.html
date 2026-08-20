@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b0d1a">
+  <meta name="description" content="Insyrium — static UI design preview pages.">
+  <title>Insyrium — UI Design Preview</title>
+  <link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/app.css">
+  <link rel="stylesheet" href="pages.css">
+</head>
+<body>
+  <div class="aurora" aria-hidden="true">
+    <span class="orb orb-1"></span><span class="orb orb-2"></span><span class="orb orb-3"></span>
+  </div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <nav class="pg-nav">
+    <a class="brand" href="index.html"><span class="brand-mark">◈</span><span class="brand-name">Insyrium</span></a>
+    <div class="pg-nav-links">
+      <a class="pg-link" href="features.html">Features</a>
+      <a class="pg-link" href="pricing.html">Pricing</a>
+      <a class="pg-link" href="about.html">About</a>
+      <a class="pg-link" href="faq.html">FAQ</a>
+      <a class="pg-link" href="contact.html">Contact</a>
+      <a class="pg-link" href="patterns.html">Patterns</a>
+      <a class="pg-link" href="components.html">UI Kit</a>
+    </div>
+    <div class="pg-nav-actions">
+      <a class="btn ghost" href="forgot-password.html"><span>Sign in</span> →</a>
+      <a class="btn primary" href="verify-email.html">Get started</a>
+    </div>
+  </nav>
+
+  <header class="pg-hero center">
+    <div class="pg-hero-inner">
+      <span class="eyebrow">Static UI design preview</span>
+      <h1>Insyrium <span class="gradient-text">design system</span> in action</h1>
+      <p>Standalone HTML pages built on the Insyrium dark, glassy design language — marketing, utilities, and dashboard mockups. No server required, open any page straight from the file browser.</p>
+      <div class="hero-actions">
+        <a class="btn primary lg" href="components.html">Browse the UI kit →</a>
+        <a class="btn ghost lg" href="analytics.html">See the dashboard</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="pg-section wide">
+    <div class="section-head reveal">
+      <span class="eyebrow">Page library</span>
+      <h2>Every page, in one place</h2>
+      <p>Click any card to open that design. Pages are static previews styled with <code>app.css</code> — the same tokens the live portal uses.</p>
+    </div>
+
+    <h3 class="reg-label" style="margin:0 0 .8rem">Marketing</h3>
+    <div class="gallery-grid" style="margin-bottom:2.4rem">
+      <a class="gallery-card reveal" href="features.html">
+        <span class="gc-icon">⚡</span><span class="gc-tag">Marketing</span>
+        <h3>Features</h3>
+        <p>Grid of product capabilities — security, sessions, community, audit trail.</p>
+        <span class="gc-go">Open page →</span>
+      </a>
+      <a class="gallery-card reveal delay-1" href="pricing.html">
+        <span class="gc-icon">💳</span><span class="gc-tag">Marketing</span>
+        <h3>Pricing</h3>
+        <p>Three tiers with a featured plan, feature comparisons and billing toggle.</p>
+        <span class="gc-go">Open page →</span>
+      </a>
+      <a class="gallery-card reveal delay-2" href="about.html">
+        <span class="gc-icon">◈</span><span class="gc-tag">Marketing</span>
+        <h3>About</h3>
+        <p>Company story, mission stats, team cards and a history timeline.</p>
+        <span class="gc-go">Open page →</span>
+      </a>
+      <a class="gallery-card reveal" href="faq.html">
+        <span class="gc-icon">💬</span><span class="gc-tag">Marketing</span>
+        <h3>FAQ</h3>
+        <p>Animated accordion with common questions about accounts and security.</p>
+        <span class="gc-go">Open page →</span>
+      </a>
+      <a class="gallery-card reveal delay-1" href="contact.html">
+        <span class="gc-icon">✉️</span><span class="gc-tag">Marketing</span>
+        <h3>Contact</h3>
+        <p>Contact form, support channels and enquiry status pills.</p>
+        <span class="gc-go">Open page →</span>
+      </a>
+    </div>
+
+    <h3 class="reg-label" style="margin:0 0 .8rem">Utilities &amp; auth</h3>
+    <div class="gallery-grid" style="margin-bottom:2.4rem">
+      <a class="gallery-card reveal" href="forgot-password.html">
+        <span class="gc-icon">🔑</span><span class="gc-tag warm">Utility</span>
+        <h3>Forgot password</h3>
+        <p>Email reset request with a friendly recovery hint.</p>
+        <span class="gc-go">Open page →</span>
+      </a>
+      <a class="gallery-card reveal delay-1" href="verify-email.html">
+        <span class="gc-icon">📩</span><span class="gc-tag warm">Utility</span>
+        <h3>Verify email</h3>
+        <p>Post-registration inbox check with resend control.</p>
+        <span class="gc-go">Open page →</span>
+      </a>
+      <a class="gallery-card reveal delay-2" href="account-locked.html">
+        <span class="gc-icon">🔒</span><span class="gc-tag warm">Utility</span>
+        <h3>Account locked</h3>
+        <p>Brute-force lockout state with a retry timer.</p>
+        <span class="gc-go">Open page →</span>
+      </a>
+      <a class="gallery-card reveal" href="maintenance.html">
+        <span class="gc-icon">🛠️</span><span class="gc-tag warm">Utility</span>
+        <h3>Maintenance</h3>
+        <p>Portal offline notice with a live status badge.</p>
+        <span class="gc-go">Open page →</span>
+      </a>
+      <a class="gallery-card reveal delay-1" href="404.html">
+        <span class="gc-icon">🧭</span><span class="gc-tag warm">Utility</span>
+        <h3>404</h3>
+        <p>Lost page with a search field and handy shortcuts.</p>
+        <span class="gc-go">Open page →</span>
+      </a>
+      <a class="gallery-card reveal delay-2" href="500.html">
+        <span class="gc-icon">⚠️</span><span class="gc-tag warm">Utility</span>
+        <h3>500</h3>
+        <p>Server error state with a reference ID and next steps.</p>
+        <span class="gc-go">Open page →</span>
+      </a>
+    </div>
+
+    <h3 class="reg-label" style="margin:0 0 .8rem">Dashboard modules</h3>
+    <div class="gallery-grid">
+      <a class="gallery-card reveal" href="analytics.html">
+        <span class="gc-icon">📈</span><span class="gc-tag hot">Dashboard</span>
+        <h3>Analytics</h3>
+        <p>Stat cards, weekly chart, top resources and a sessions donut.</p>
+        <span class="gc-go">Open page →</span>
+      </a>
+      <a class="gallery-card reveal delay-1" href="team.html">
+        <span class="gc-icon">👥</span><span class="gc-tag hot">Dashboard</span>
+        <h3>Team</h3>
+        <p>Member directory with roles, status and avatar stacks.</p>
+        <span class="gc-go">Open page →</span>
+      </a>
+      <a class="gallery-card reveal delay-2" href="settings.html">
+        <span class="gc-icon">⚙️</span><span class="gc-tag hot">Dashboard</span>
+        <h3>Settings</h3>
+        <p>Profile, security toggles, notifications and danger zone.</p>
+        <span class="gc-go">Open page →</span>
+      </a>
+      <a class="gallery-card reveal" href="components.html">
+        <span class="gc-icon">🎨</span><span class="gc-tag">UI kit</span>
+        <h3>Component gallery</h3>
+        <p>Buttons, forms, tables, toggles, modals, badges, progress and more.</p>
+        <span class="gc-go">Open page →</span>
+      </a>
+    </div>
+
+    <h3 class="reg-label" style="margin:2.4rem 0 .8rem">Reference</h3>
+    <div class="gallery-grid">
+      <a class="gallery-card reveal" href="patterns.html">
+        <span class="gc-icon">🗂️</span><span class="gc-tag">Reference</span>
+        <h3>UI patterns &amp; design methods</h3>
+        <p>42 searchable techniques — feedback states, navigation, forms, process and foundations.</p>
+        <span class="gc-go">Open collection →</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="cta-band reveal">
+    <h2>See the system in one place</h2>
+    <p>The component gallery shows every reusable piece with its markup.</p>
+    <a class="btn primary lg" href="components.html">Open the UI kit →</a>
+  </section>
+
+  <footer class="footer pg-footer">
+    <span>© <span class="js-year">2026</span> Insyrium · static UI preview</span>
+    <span>Built on the Insyrium design system · <a href="index.html">gallery home</a></span>
+  </footer>
+
+  <script src="pages.js"></script>
+</body>
+</html>

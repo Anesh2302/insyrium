@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b0d1a">
+  <meta name="description" content="Your Insyrium account is temporarily locked.">
+  <title>Insyrium — Account Locked</title>
+  <link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/app.css">
+  <link rel="stylesheet" href="pages.css">
+</head>
+<body>
+  <div class="aurora" aria-hidden="true">
+    <span class="orb orb-1"></span><span class="orb orb-2"></span><span class="orb orb-3"></span>
+  </div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <nav class="pg-nav">
+    <a class="brand" href="index.html"><span class="brand-mark">◈</span><span class="brand-name">Insyrium</span></a>
+    <div class="pg-nav-links"><a class="pg-link" href="index.html">← gallery home</a></div>
+    <div class="pg-nav-actions">
+      <a class="btn ghost" href="forgot-password.html">Sign in →</a>
+    </div>
+  </nav>
+
+  <div class="auth-page">
+    <div class="auth-wrap">
+      <div class="auth-card centered reveal">
+        <div class="status-icon lock">🔒</div>
+        <span class="eyebrow">Temporary lockout</span>
+        <h1>Too many attempts</h1>
+        <p>Your account was locked after repeated failed sign-ins. This is a safety measure — try again in a moment.</p>
+
+        <div class="comp-row" style="align-items:center">
+          <div class="progress danger" style="width:100%"><span id="lock-bar" style="width:0%"></span></div>
+          <div class="metric-row" style="width:100%"><span class="m-label">Retry available in</span><span class="m-val" id="lock-timer">00:45</span></div>
+        </div>
+
+        <div class="utility-actions">
+          <button class="btn ghost" onclick="demoToast('Reset link sent to your inbox.', 'info')">Email a recovery link</button>
+          <a class="btn primary" href="forgot-password.html">Contact support</a>
+        </div>
+        <p class="auth-alt">If this keeps happening, an administrator has been alerted.</p>
+      </div>
+      <p class="utility-alt">Static preview — demo interaction only.</p>
+    </div>
+  </div>
+
+  <div id="toasts"></div>
+  <script src="pages.js"></script>
+  <script>
+    (function () {
+      var total = 45, left = total;
+      var timer = document.getElementById('lock-timer');
+      var bar = document.getElementById('lock-bar');
+      var tick = setInterval(function () {
+        left--;
+        if (left <= 0) { clearInterval(tick); timer.textContent = '00:00 — try again'; bar.style.width = '100%'; return; }
+        var m = String(Math.floor(left / 60)).padStart(2, '0');
+        var s = String(left % 60).padStart(2, '0');
+        timer.textContent = m + ':' + s;
+        bar.style.width = ((total - left) / total * 100) + '%';
+      }, 1000);
+    })();
+  </script>
+</body>
+</html>

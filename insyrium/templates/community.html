@@ -1,0 +1,442 @@
+{% extends "base.html" %}
+{% block title %}{{ portal_name }} — Community{% endblock %}
+{% block body_class %}community-page{% endblock %}
+
+{% block content %}
+<div class="com-app">
+  <!-- Top bar -->
+  <header class="com-topbar">
+    <a class="brand" href="/"><span class="brand-mark">◈</span><span class="brand-name">Insyrium</span></a>
+    <nav class="com-nav">
+      <a href="/dashboard">Dashboard</a>
+      <a class="active" href="/community">Community</a>
+      <a href="#" id="nav-dms">Messages</a>
+    </nav>
+    <div class="com-top-right">
+      <button class="com-icon-btn" id="notif-btn" aria-label="Notifications">
+        🔔 <span class="notif-badge" id="notif-badge" hidden></span>
+      </button>
+      <button class="com-icon-btn" id="logout-btn" aria-label="Log out" title="Log out">⎋</button>
+    </div>
+    <div class="notif-panel" id="notif-panel" hidden></div>
+  </header>
+
+  <!-- Layout -->
+  <div class="com-body">
+    <!-- Servers + DMs rail -->
+    <aside class="com-rail">
+      <div class="rail-section">
+        <div class="rail-head">
+          Servers
+          <button class="com-mini-btn" id="new-server-btn" title="Create server">+</button>
+          <button class="com-mini-btn" id="discover-btn" title="Discover servers" data-open="discover">🔍</button>
+        </div>
+        <div class="rail-list" id="server-list"></div>
+      </div>
+      <div class="rail-section">
+        <div class="rail-head">
+          Direct messages
+          <button class="com-mini-btn" id="group-dm-btn" title="Create group DM">+</button>
+        </div>
+        <div class="rail-list" id="dm-list"></div>
+      </div>
+      <div class="rail-section">
+        <div class="rail-head">Threads</div>
+        <div class="rail-list" id="thread-list" hidden></div>
+      </div>
+      <div class="rail-hint">
+        <span>Insecure? We scan links, block scams &amp; malware files, rate-limit spam, and give every mod real tools.</span>
+      </div>
+    </aside>
+
+    <!-- Channels column -->
+    <aside class="com-channels" id="channels-col">
+      <div class="ch-head" id="server-title">—</div>
+      <div id="channel-categories" class="ch-categories">
+        <div class="ch-section">TEXT</div>
+        <div class="ch-list" id="text-channels"></div>
+        <div class="ch-section">VOICE</div>
+        <div class="ch-list" id="voice-channels"></div>
+      </div>
+      <button class="ch-add" id="add-category-btn" hidden>+ New category</button>
+      <button class="ch-add" id="add-channel-btn" hidden>+ New channel</button>
+      <div class="ch-actions" id="server-actions" hidden>
+        <button class="linkish" id="invite-copy">Copy invite</button>
+        <button class="linkish" id="roles-btn">Roles &amp; permissions</button>
+        <button class="linkish" id="reports-btn">Reports queue</button>
+        <button class="linkish" id="automod-btn">AutoMod rules</button>
+        <button class="linkish" id="webhooks-btn">Webhooks</button>
+        <button class="linkish" id="stickers-btn">Stickers</button>
+        <button class="linkish" id="templates-btn">Templates</button>
+        <button class="linkish" id="bots-btn">Bots</button>
+        <button class="linkish" id="onboard-btn">Onboarding</button>
+        <button class="linkish" id="raid-btn">Raid protection</button>
+        <button class="linkish" id="verification-btn">Verification level</button>
+        <button class="linkish" id="boost-btn">Boosts</button>
+        <button class="linkish" id="notif-prefs-btn">Notification prefs</button>
+        <button class="linkish" id="server-settings-btn">Server settings ⚙</button>
+      </div>
+    </aside>
+
+    <!-- Chat column -->
+    <main class="com-chat">
+      <div class="chat-head" id="chat-head">
+        <span id="chat-head-text">Select a channel</span>
+        <div class="chat-head-actions">
+          <button class="com-icon-btn" id="chat-search-btn" title="Search messages" data-open="search">🔍</button>
+          <button class="com-icon-btn" id="chat-pins-btn" title="Pinned messages" data-open="pins">📌</button>
+          <button class="com-icon-btn" id="chat-events-btn" title="Events calendar" data-open="events">📅</button>
+          <button class="com-icon-btn" id="chat-settings-btn" title="Server settings" hidden data-open="settings">⚙</button>
+          <button class="com-icon-btn" id="stage-control-btn" title="Stage controls" hidden>📢</button>
+          <span class="ss-viewer-count" id="ss-viewer-count" hidden></span>
+        </div>
+      </div>
+
+      <!-- Chat search bar (hidden by default) -->
+      <div class="chat-search-bar" id="chat-search-bar" hidden>
+        <form id="search-form" class="search-bar-form">
+          <input id="search-input" type="text" placeholder="Search messages in this channel…" autocomplete="off">
+          <button class="com-mini-btn" type="submit">Search</button>
+          <button class="com-icon-btn" type="button" data-close="search">✕</button>
+        </form>
+      </div>
+
+      <!-- Search results panel (hidden by default) -->
+      <div class="chat-search-results" id="search-results-panel" hidden>
+        <div class="search-results-head">
+          <span>Search Results</span>
+          <button class="com-icon-btn" data-close="search-results">✕</button>
+        </div>
+        <div class="search-results-list" id="search-results-list"></div>
+      </div>
+
+      <!-- Voice bar -->
+      <div class="voice-bar" id="voice-bar" hidden>
+        <div class="voice-bar-info">🔊 <b id="voice-bar-channel"></b></div>
+        <div class="voice-bar-members" id="voice-bar-members"></div>
+        <div class="voice-bar-controls">
+          <button class="com-icon-btn" id="voice-mute-btn" title="Mute microphone">🎙</button>
+          <button class="com-icon-btn" id="voice-deafen-btn" title="Deafen">🔇</button>
+          <button class="com-icon-btn danger" id="voice-leave-btn" title="Leave voice channel">✕</button>
+        </div>
+      </div>
+
+      <div class="chat-messages" id="chat-messages"></div>
+
+      <!-- Reply indicator (hidden by default) -->
+      <div class="chat-reply-bar" id="reply-bar" hidden>
+        <span>Replying to <b id="reply-to-name"></b>: <span id="reply-to-preview" class="muted"></span></span>
+        <button class="com-icon-btn" id="reply-cancel" title="Cancel reply">✕</button>
+      </div>
+
+      <div class="chat-typing" id="chat-typing" hidden>
+        <span class="typing-dots"><span></span><span></span><span></span></span>
+        <span id="typing-text"></span>
+      </div>
+
+      <div class="chat-input-row">
+        <form id="message-form" class="chat-form">
+          <input id="message-input" maxlength="2000" placeholder="Message #channel — @mention to notify someone" autocomplete="off">
+          <button class="btn primary" type="submit">Send</button>
+        </form>
+        <div class="chat-meta">Max 2,000 chars · 5 MB images/docs · .exe/.bat/.js etc. are blocked</div>
+      </div>
+    </main>
+
+    <!-- Thread panel (hidden by default, opens on right side) -->
+    <aside class="com-thread-panel" id="thread-panel" hidden>
+      <div class="thread-panel-head">
+        <span id="thread-panel-title">Thread</span>
+        <button class="com-icon-btn" id="thread-panel-close" title="Close thread">✕</button>
+      </div>
+      <div class="thread-panel-parent" id="thread-parent-msg"></div>
+      <div class="chat-messages thread-messages" id="thread-messages"></div>
+      <div class="chat-input-row">
+        <form id="thread-form" class="chat-form">
+          <input id="thread-input" maxlength="2000" placeholder="Reply in thread…" autocomplete="off">
+          <button class="btn primary" type="submit">Send</button>
+        </form>
+      </div>
+    </aside>
+
+    <!-- Members column -->
+    <aside class="com-members" id="members-col">
+      <div class="m-head" id="members-title">Members</div>
+      <div id="member-list" class="m-list"></div>
+      <div class="m-head">Voice</div>
+      <div id="voice-presence" class="m-list"></div>
+      <div id="voice-self" hidden></div>
+    </aside>
+  </div>
+</div>
+
+<!-- Call overlay -->
+<div class="call-overlay" id="call-overlay" hidden>
+  <div class="call-card" id="call-card"></div>
+</div>
+
+<!-- User profile popup (hidden by default) -->
+<div class="com-modal-overlay" id="profile-popup" hidden>
+  <div class="com-modal com-profile-modal">
+    <div class="com-modal-head">
+      <span>User Profile</span>
+      <button class="com-icon-btn" data-close>✕</button>
+    </div>
+    <div class="com-modal-body" id="profile-popup-body">
+      <div class="profile-banner" id="profile-banner"></div>
+      <div class="profile-info">
+        <div class="profile-avatar" id="profile-avatar"></div>
+        <div class="profile-name" id="profile-name"></div>
+        <div class="profile-status" id="profile-status"></div>
+        <div class="profile-roles" id="profile-roles"></div>
+        <div class="profile-meta muted" id="profile-member-since"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Emoji picker (hidden by default) -->
+<div class="com-emoji-picker" id="emoji-picker" hidden>
+  <div class="emoji-picker-head">
+    <input id="emoji-search" type="text" placeholder="Search emoji…" autocomplete="off">
+  </div>
+  <div class="emoji-grid" id="emoji-grid"></div>
+</div>
+
+<!-- Modals -->
+<div class="com-modal-overlay" id="modal-overlay" hidden>
+  <div class="com-modal">
+    <div class="com-modal-head"><span id="modal-title">—</span><button class="com-icon-btn" data-close>✕</button></div>
+    <div class="com-modal-body" id="modal-body"></div>
+  </div>
+</div>
+
+<!-- Server discovery modal -->
+<div class="com-modal-overlay" id="discover-modal" hidden>
+  <div class="com-modal com-modal-lg">
+    <div class="com-modal-head">
+      <span>Discover Servers</span>
+      <button class="com-icon-btn" data-close>✕</button>
+    </div>
+    <div class="com-modal-body">
+      <div class="discover-search">
+        <input id="discover-search-input" type="text" placeholder="Search public servers…" autocomplete="off">
+      </div>
+      <div class="discover-grid" id="discover-grid"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Thread creation modal -->
+<div class="com-modal-overlay" id="thread-create-modal" hidden>
+  <div class="com-modal">
+    <div class="com-modal-head">
+      <span>Create Thread</span>
+      <button class="com-icon-btn" data-close>✕</button>
+    </div>
+    <div class="com-modal-body">
+      <label class="muted">Thread name</label>
+      <input id="thread-name-input" maxlength="100" placeholder="What is this thread about?">
+      <label class="muted">Start from message (optional)</label>
+      <select id="thread-origin-msg"><option value="">None</option></select>
+      <button class="btn primary block" id="thread-create-go">Create Thread</button>
+    </div>
+  </div>
+</div>
+
+<!-- Event creation modal -->
+<div class="com-modal-overlay" id="event-modal" hidden>
+  <div class="com-modal com-modal-lg">
+    <div class="com-modal-head">
+      <span>Create Event</span>
+      <button class="com-icon-btn" data-close>✕</button>
+    </div>
+    <div class="com-modal-body">
+      <label class="muted">Event name</label>
+      <input id="event-name" maxlength="120" placeholder="Community game night">
+      <label class="muted">Description</label>
+      <textarea id="event-desc" rows="3" maxlength="1000"></textarea>
+      <label class="muted">Start time</label>
+      <input id="event-start" type="datetime-local">
+      <label class="muted">End time (optional)</label>
+      <input id="event-end" type="datetime-local">
+      <label class="muted">Channel</label>
+      <select id="event-channel"></select>
+      <button class="btn primary block" id="event-create-go">Create Event</button>
+    </div>
+  </div>
+</div>
+
+<!-- AutoMod rules modal -->
+<div class="com-modal-overlay" id="automod-modal" hidden>
+  <div class="com-modal com-modal-lg">
+    <div class="com-modal-head">
+      <span>AutoMod Rules</span>
+      <button class="com-icon-btn" data-close>✕</button>
+    </div>
+    <div class="com-modal-body" id="automod-body">
+      <div class="automod-rule-list" id="automod-rules"></div>
+      <button class="btn primary block" id="automod-add-rule">+ Add Rule</button>
+    </div>
+  </div>
+</div>
+
+<!-- Webhook management modal -->
+<div class="com-modal-overlay" id="webhook-modal" hidden>
+  <div class="com-modal com-modal-lg">
+    <div class="com-modal-head">
+      <span>Webhooks</span>
+      <button class="com-icon-btn" data-close>✕</button>
+    </div>
+    <div class="com-modal-body" id="webhook-body">
+      <div class="webhook-list" id="webhook-list"></div>
+      <button class="btn primary block" id="webhook-create">+ New Webhook</button>
+    </div>
+  </div>
+</div>
+
+<!-- Sticker management modal -->
+<div class="com-modal-overlay" id="sticker-modal" hidden>
+  <div class="com-modal com-modal-lg">
+    <div class="com-modal-head">
+      <span>Stickers</span>
+      <button class="com-icon-btn" data-close>✕</button>
+    </div>
+    <div class="com-modal-body" id="sticker-body">
+      <div class="sticker-grid" id="sticker-grid"></div>
+      <button class="btn primary block" id="sticker-upload">+ Upload Sticker</button>
+    </div>
+  </div>
+</div>
+
+<!-- Template management modal -->
+<div class="com-modal-overlay" id="template-modal" hidden>
+  <div class="com-modal com-modal-lg">
+    <div class="com-modal-head">
+      <span>Server Templates</span>
+      <button class="com-icon-btn" data-close>✕</button>
+    </div>
+    <div class="com-modal-body" id="template-body">
+      <div class="template-list" id="template-list"></div>
+      <button class="btn primary block" id="template-create">+ Save as Template</button>
+    </div>
+  </div>
+</div>
+
+<!-- Channel category management modal -->
+<div class="com-modal-overlay" id="category-modal" hidden>
+  <div class="com-modal">
+    <div class="com-modal-head">
+      <span id="category-modal-title">New Category</span>
+      <button class="com-icon-btn" data-close>✕</button>
+    </div>
+    <div class="com-modal-body">
+      <label class="muted">Category name</label>
+      <input id="category-name-input" maxlength="50" placeholder="Information">
+      <button class="btn primary block" id="category-save">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- Forward message modal -->
+<div class="com-modal-overlay" id="forward-modal" hidden>
+  <div class="com-modal">
+    <div class="com-modal-head">
+      <span>Forward Message</span>
+      <button class="com-icon-btn" data-close>✕</button>
+    </div>
+    <div class="com-modal-body">
+      <div class="forward-preview" id="forward-preview"></div>
+      <label class="muted">Forward to channel</label>
+      <select id="forward-channel-select"></select>
+      <label class="muted">Or forward to user (DM)</label>
+      <select id="forward-user-select"><option value="">Select a user…</option></select>
+      <button class="btn primary block" id="forward-go">Forward</button>
+    </div>
+  </div>
+</div>
+
+<!-- Pinned messages panel (hidden by default) -->
+<div class="com-modal-overlay" id="pins-modal" hidden>
+  <div class="com-modal com-modal-lg">
+    <div class="com-modal-head">
+      <span>Pinned Messages</span>
+      <button class="com-icon-btn" data-close>✕</button>
+    </div>
+    <div class="com-modal-body">
+      <div class="pins-list" id="pins-list"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Events calendar panel (hidden by default) -->
+<div class="com-modal-overlay" id="events-modal" hidden>
+  <div class="com-modal com-modal-lg">
+    <div class="com-modal-head">
+      <span>Events</span>
+      <button class="com-icon-btn" data-close>✕</button>
+    </div>
+    <div class="com-modal-body">
+      <button class="btn primary small" id="event-create-btn">+ Create Event</button>
+      <div class="events-list" id="events-list"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Group DM modal -->
+<div class="com-modal-overlay" id="group-dm-modal" hidden>
+  <div class="com-modal">
+    <div class="com-modal-head">
+      <span>Create Group DM</span>
+      <button class="com-icon-btn" data-close>✕</button>
+    </div>
+    <div class="com-modal-body">
+      <label class="muted">Group name</label>
+      <input id="gdm-name-input" maxlength="80" placeholder="Group Chat">
+      <button class="btn primary block" id="gdm-create-go">Create</button>
+    </div>
+  </div>
+</div>
+
+<!-- Forum panel -->
+<div class="com-modal-overlay" id="forum-modal" hidden>
+  <div class="com-modal com-modal-lg">
+    <div class="com-modal-head">
+      <span>Forum</span>
+      <button class="com-icon-btn" data-close>✕</button>
+    </div>
+    <div class="com-modal-body" id="forum-body"></div>
+  </div>
+</div>
+
+<!-- Account recovery modal -->
+<div class="com-modal-overlay" id="recovery-modal" hidden>
+  <div class="com-modal">
+    <div class="com-modal-head">
+      <span>Account Recovery</span>
+      <button class="com-icon-btn" data-close>✕</button>
+    </div>
+    <div class="com-modal-body recovery-form">
+      <p class="muted">Enter your email to recover your account. A code will be sent.</p>
+      <input id="recovery-email" type="email" placeholder="you@example.com">
+      <button class="btn primary block" id="recovery-send">Send Recovery Code</button>
+      <div id="recovery-step2" hidden>
+        <label class="muted">Recovery code</label>
+        <input id="recovery-code" maxlength="6" placeholder="000000">
+        <button class="btn primary block" id="recovery-verify">Verify Code</button>
+      </div>
+      <div id="recovery-step3" hidden>
+        <label class="muted">New password</label>
+        <input id="recovery-new-pw" type="password" placeholder="New password">
+        <button class="btn primary block" id="recovery-reset">Reset Password</button>
+      </div>
+      <div id="recovery-result"></div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/vendor/socket.io.min.js"></script>
+<script src="/static/js/community.js"></script>
+{% endblock %}
