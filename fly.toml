@@ -1,0 +1,36 @@
+app = 'insyrium-portal'
+primary_region = 'sjc'
+
+[build]
+
+[env]
+  FLASK_DEBUG = '0'
+  FORCE_HTTPS = 'true'
+  PORTAL_NAME = 'Insyrium Portal'
+  ALLOW_REGISTRATION = 'true'
+  DEV_CONSOLE_OTP = 'true'
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = 'stop'
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ['app']
+
+  [http_service.concurrency]
+    type = 'connections'
+    hard_limit = 100
+    soft_limit = 50
+
+[[http_service.checks]]
+  grace_period = '10s'
+  interval = '30s'
+  method = 'GET'
+  timeout = '5s'
+  path = '/api/public/status'
+
+[[vm]]
+  cpu_kind = 'shared'
+  cpus = 1
+  memory_mb = 256

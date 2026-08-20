@@ -17,3 +17,4 @@ if __name__ == "__main__":
         debug=os.getenv("FLASK_DEBUG", "1") == "1",
         use_reloader=False,
     )
+
