@@ -1,3 +1,4 @@
+import os
 from flask_socketio import SocketIO
 from flask_sqlalchemy import SQLAlchemy
 from flask_limiter import Limiter
@@ -7,9 +8,8 @@ from flask_mail import Mail
 db = SQLAlchemy()
 mail = Mail()
 
-# Threading async mode (no eventlet monkey-patching) — works with the Werkzeug
-# dev server via simple-websocket and keeps pymysql/APScheduler happy.
-socketio = SocketIO(cors_allowed_origins="*", async_mode="threading")
+async_mode = "eventlet" if os.environ.get("RENDER") or os.environ.get("GUNICORN_WORKER") else "threading"
+socketio = SocketIO(cors_allowed_origins="*", async_mode=async_mode)
 
 limiter = Limiter(
     key_func=get_remote_address,

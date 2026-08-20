@@ -78,7 +78,7 @@ def create_app(config_object=None):
             db.create_all()
         except Exception:
             app.logger.warning(
-                "Could not create tables — is MySQL running and configured? "
+                "Could not create tables — check DATABASE_URL env var. "
                 "Run: flask --app app init-db"
             )
         _sync_user_columns(app)
