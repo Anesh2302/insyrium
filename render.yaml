@@ -3,7 +3,7 @@ services:
     name: insyrium-portal
     runtime: python
     buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn --worker-class eventlet -w 1 app:app --bind 0.0.0.0:$PORT
+    startCommand: gunicorn --worker-class eventlet -w 1 app:app --bind 0.0.0.0:$PORT --timeout 120
     envVars:
       - key: DATABASE_URL
         fromDatabase:
@@ -17,6 +17,12 @@ services:
         value: "3.11"
       - key: DEV_CONSOLE_OTP
         value: "true"
+      - key: FORCE_HTTPS
+        value: "true"
+      - key: ALLOW_REGISTRATION
+        value: "true"
+      - key: PORTAL_NAME
+        value: "Insyrium Portal"
 
 databases:
   - name: insyrium-db
