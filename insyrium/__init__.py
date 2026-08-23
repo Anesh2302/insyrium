@@ -89,7 +89,40 @@ def create_app(config_object=None):
         except Exception as exc:  # never block boot on seeding
             app.logger.warning("Could not seed default community: %s", exc)
 
+        if "sqlite" in app.config.get("SQLALCHEMY_DATABASE_URI", ""):
+            _seed_default_accounts(app)
+
     return app
+
+
+def _seed_default_accounts(app):
+    from .models import User, Role
+    if User.query.first():
+        return
+    pw = os.environ.get("SEED_PASSWORD", "Simon#23!tech")
+    roles = {}
+    for name, rank in [("user", 0), ("admin_support", 1), ("admin_content", 2),
+                       ("admin_platform", 3), ("supreme_admin", 4)]:
+        r = Role.query.filter_by(name=name).first()
+        if not r:
+            r = Role(name=name, rank=rank, description=name.replace("_", " ").title())
+            db.session.add(r)
+            db.session.flush()
+        roles[name] = r
+    db.session.commit()
+    for email, name, role_name in [
+        ("simonpetercys@gmail.com", "Simon Peter", "supreme_admin"),
+        ("platform@insyrium.com", "Platform Admin", "admin_platform"),
+        ("content@insyrium.com", "Content Manager", "admin_content"),
+        ("support@insyrium.com", "Support Lead", "admin_support"),
+        ("abisrmvec@gmail.com", "Abi", "user"),
+        ("claraelizbeth086@gmail.com", "Clara Elizabeth", "user"),
+    ]:
+        if not User.query.filter_by(email=email).first():
+            u = User(email=email, name=name, role_id=roles[role_name].id, mfa_enabled=True)
+            u.set_password(pw)
+            db.session.add(u)
+    db.session.commit()
 
 
 def _migrate_settings_keys(app):
