@@ -89,8 +89,7 @@ def create_app(config_object=None):
         except Exception as exc:  # never block boot on seeding
             app.logger.warning("Could not seed default community: %s", exc)
 
-        if "sqlite" in app.config.get("SQLALCHEMY_DATABASE_URI", ""):
-            _seed_default_accounts(app)
+        _seed_default_accounts(app)
 
     return app
 
@@ -119,9 +118,9 @@ def _seed_default_accounts(app):
         ("claraelizbeth086@gmail.com", "Clara Elizabeth", "user"),
     ]:
         if not User.query.filter_by(email=email).first():
-            u = User(email=email, name=name, role_id=roles[role_name].id, mfa_enabled=True)
-            u.set_password(pw)
-            db.session.add(u)
+                u = User(email=email, name=name, role_id=roles[role_name].id, mfa_enabled=True, status="active")
+                u.set_password(pw)
+                db.session.add(u)
     db.session.commit()
 
 
