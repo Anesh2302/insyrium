@@ -96,8 +96,6 @@ def create_app(config_object=None):
 
 def _seed_default_accounts(app):
     from .models import User, Role
-    if User.query.first():
-        return
     pw = os.environ.get("SEED_PASSWORD", "Simon#23!tech")
     roles = {}
     for name, rank in [("user", 0), ("admin_support", 1), ("admin_content", 2),
@@ -109,19 +107,25 @@ def _seed_default_accounts(app):
             db.session.flush()
         roles[name] = r
     db.session.commit()
-    for email, name, role_name in [
+    default_accounts = [
         ("simonpetercys@gmail.com", "Simon Peter", "supreme_admin"),
         ("platform@insyrium.com", "Platform Admin", "admin_platform"),
         ("content@insyrium.com", "Content Manager", "admin_content"),
         ("support@insyrium.com", "Support Lead", "admin_support"),
         ("abisrmvec@gmail.com", "Abi", "user"),
         ("claraelizbeth086@gmail.com", "Clara Elizabeth", "user"),
-    ]:
+    ]
+    seeded = 0
+    for email, name, role_name in default_accounts:
         if not User.query.filter_by(email=email).first():
-                u = User(email=email, name=name, role_id=roles[role_name].id, mfa_enabled=True, status="active")
-                u.set_password(pw)
-                db.session.add(u)
-    db.session.commit()
+            u = User(email=email, name=name, role_id=roles[role_name].id,
+                     mfa_enabled=True, status="active")
+            u.set_password(pw)
+            db.session.add(u)
+            seeded += 1
+    if seeded:
+        db.session.commit()
+        app.logger.info("Seeded %d default accounts", seeded)
 
 
 def _migrate_settings_keys(app):
