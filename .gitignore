@@ -7,3 +7,6 @@ venv/
 instance/
 *.db
 .DS_Store
+
+.vercel
+.env*
