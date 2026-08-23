@@ -16,10 +16,10 @@ with application.app_context():
     from insyrium.models import User, Role
     if not User.query.first():
         roles = {}
-        for name, level in [("user",0),("admin_support",1),("admin_content",2),("admin_platform",3),("supreme_admin",4)]:
+        for name, rank in [("user",0),("admin_support",1),("admin_content",2),("admin_platform",3),("supreme_admin",4)]:
             r = Role.query.filter_by(name=name).first()
             if not r:
-                r = Role(name=name, level=level, permissions=0)
+                r = Role(name=name, rank=rank, description=name.replace("_"," ").title())
                 db.session.add(r)
                 db.session.flush()
             roles[name] = r
