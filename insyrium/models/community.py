@@ -327,6 +327,7 @@ class Thread(db.Model):
     name = db.Column(db.String(100), nullable=False)
     creator_id = db.Column(db.BigInteger, db.ForeignKey("users.id"), nullable=False)
     message_count = db.Column(db.Integer, default=0)
+    is_archived = db.Column(db.Boolean, default=False, nullable=False, server_default=db.text("false"))
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     last_message_at = db.Column(db.DateTime, nullable=True)
 
@@ -338,6 +339,7 @@ class Thread(db.Model):
             "name": self.name,
             "creator_id": self.creator_id,
             "message_count": self.message_count,
+            "is_archived": self.is_archived,
             "created_at": self.created_at.isoformat() if self.created_at else None,
             "last_message_at": self.last_message_at.isoformat() if self.last_message_at else None,
         }

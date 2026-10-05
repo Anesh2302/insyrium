@@ -182,6 +182,7 @@ def _sync_community_columns(app):
 
     expected = {
         "community_server_boosts": [("is_active", "BOOLEAN NOT NULL DEFAULT TRUE")],
+        "community_threads": [("is_archived", "BOOLEAN NOT NULL DEFAULT FALSE")],
     }
     try:
         insp = inspect(db.engine)

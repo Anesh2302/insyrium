@@ -1291,7 +1291,7 @@ def add_reaction(mid):
         return jsonify(error="You already reacted with this emoji."), 409
 
     reaction = MessageReaction(
-        message_id=mid, user_id=g.user.id, emoji=emoji, server_id=message.server_id
+        message_id=mid, user_id=g.user.id, emoji=emoji
     )
     db.session.add(reaction)
     db.session.commit()
@@ -1351,7 +1351,7 @@ def create_thread():
 
     thread = Thread(
         name=data["name"].strip(),
-        channel_id=channel.id,
+        parent_channel_id=channel.id,
         server_id=channel.server_id,
         creator_id=g.user.id,
     )
@@ -1908,7 +1908,7 @@ def create_automod_rule(sid):
         trigger_value=data.get("trigger_value", ""),
         action_type=data["action_type"],
         action_duration_minutes=data.get("action_duration_minutes", 0),
-        creator_id=g.user.id,
+        created_by=g.user.id,
     )
     db.session.add(rule)
     db.session.commit()
@@ -2363,18 +2363,18 @@ def _session_fingerprint():
     existing = SessionFingerprint.query.filter_by(user_id=g.user.id).first()
     is_new = False
     if existing:
-        if existing.fingerprint_hash != fp_hash:
+        if existing.fingerprint != fp_hash:
             is_new = True
-            existing.fingerprint_hash = fp_hash
+            existing.fingerprint = fp_hash
             existing.ip_address = request.remote_addr or ""
             existing.user_agent = request.headers.get("User-Agent", "")[:512]
-            existing.last_seen_at = datetime.utcnow()
+            existing.last_seen = datetime.utcnow()
             db.session.commit()
     else:
         is_new = True
         fp = SessionFingerprint(
             user_id=g.user.id,
-            fingerprint_hash=fp_hash,
+            fingerprint=fp_hash,
             ip_address=request.remote_addr or "",
             user_agent=request.headers.get("User-Agent", "")[:512],
         )
@@ -2594,7 +2594,7 @@ def start_screenshare(cid):
         return jsonify(error="You cannot join this channel."), 403
 
     existing = ScreenShare.query.filter_by(
-        channel_id=cid, user_id=g.user.id, is_active=True
+        channel_id=cid, user_id=g.user.id, is_live=True
     ).first()
     if existing:
         return jsonify(error="You are already screen sharing."), 409
@@ -2606,7 +2606,8 @@ def start_screenshare(cid):
         user_id=g.user.id,
         title=body.get("title", "")[:100],
         viewer_count=0,
-        is_active=True,
+        is_live=True,
+        started_at=datetime.utcnow(),
     )
     db.session.add(share)
     db.session.commit()
@@ -2618,11 +2619,12 @@ def start_screenshare(cid):
 @token_required
 def stop_screenshare(cid):
     share = ScreenShare.query.filter_by(
-        channel_id=cid, user_id=g.user.id, is_active=True
+        channel_id=cid, user_id=g.user.id, is_live=True
     ).first()
     if share is None:
         return jsonify(error="No active screenshare found."), 404
-    share.is_active = False
+    share.is_live = False
+    share.ended_at = datetime.utcnow()
     db.session.commit()
     return jsonify(ok=True)
 
@@ -2637,7 +2639,7 @@ def list_channel_screenshares(cid):
     if member is None or not cc.can(member, Perm.READ):
         return jsonify(error="You cannot view this channel."), 403
 
-    shares = ScreenShare.query.filter_by(channel_id=cid, is_active=True).all()
+    shares = ScreenShare.query.filter_by(channel_id=cid, is_live=True).all()
     out = []
     for s in shares:
         u = User.query.get(s.user_id)
@@ -2656,7 +2658,7 @@ def list_channel_screenshares(cid):
 @token_required
 def increment_screenshare_viewers(sid):
     share = ScreenShare.query.get(sid)
-    if share is None or not share.is_active:
+    if share is None or not share.is_live:
         return jsonify(error="Screenshare not found."), 404
     share.viewer_count += 1
     db.session.commit()
@@ -2673,7 +2675,7 @@ def list_server_screenshares(sid):
     if member is None or not cc.can(member, Perm.READ):
         return jsonify(error="You cannot view this server."), 403
 
-    shares = ScreenShare.query.filter_by(server_id=sid, is_active=True).all()
+    shares = ScreenShare.query.filter_by(server_id=sid, is_live=True).all()
     out = []
     for s in shares:
         u = User.query.get(s.user_id)
@@ -2715,7 +2717,6 @@ def create_stage(sid):
         server_id=sid,
         channel_id=channel.id,
         topic=data.get("topic", ""),
-        creator_id=g.user.id,
         is_live=False,
     )
     db.session.add(stage)
@@ -3307,7 +3308,6 @@ def create_onboarding_step(sid):
         description=data.get("description", ""),
         required_role_id=data.get("required_role_id"),
         step_order=data.get("step_order", 0),
-        creator_id=g.user.id,
     )
     db.session.add(step)
     db.session.commit()
