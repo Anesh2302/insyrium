@@ -47,6 +47,9 @@ class Config:
     MAIL_USERNAME = os.getenv("MAIL_USERNAME", "")
     MAIL_PASSWORD = os.getenv("MAIL_PASSWORD", "")
     MAIL_DEFAULT_SENDER = os.getenv("MAIL_DEFAULT_SENDER", "no-reply@insyrium.com")
+    # HTTP-based mail (Resend) — required on serverless hosts that block outbound SMTP.
+    RESEND_API_KEY = os.getenv("RESEND_API_KEY", "")
+    RESEND_FROM = os.getenv("RESEND_FROM", "Insyrium <onboarding@resend.dev>")
     # When no SMTP is configured, codes / links are printed to the server console.
     DEV_CONSOLE_OTP = os.getenv("DEV_CONSOLE_OTP", "true").lower() == "true"
 

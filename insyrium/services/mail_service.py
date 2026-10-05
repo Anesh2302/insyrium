@@ -21,6 +21,30 @@ def _smtp_configured(app=None):
     )
 
 
+def _resend_configured(app=None):
+    app = app or current_app
+    return bool(app.config.get("RESEND_API_KEY"))
+
+
+def _send_via_resend(subject, to, html=None, body=None):
+    """Deliver through the Resend HTTP API (works from serverless; no SMTP port)."""
+    import json
+    import urllib.request
+
+    key = current_app.config["RESEND_API_KEY"]
+    sender = current_app.config.get("RESEND_FROM") or current_app.config.get("MAIL_DEFAULT_SENDER")
+    payload = {"from": sender, "to": [to], "subject": subject,
+               "html": html or "", "text": body or ""}
+    req = urllib.request.Request(
+        "https://api.resend.com/emails",
+        data=json.dumps(payload).encode("utf-8"),
+        headers={"Authorization": f"Bearer {key}", "Content-Type": "application/json"},
+        method="POST",
+    )
+    with urllib.request.urlopen(req, timeout=15) as resp:
+        return resp.status in (200, 201)
+
+
 def _console(to, subject, body):
     line = "=" * 72
     print("\n" + line, flush=True)
@@ -71,6 +95,15 @@ def _template(title, paragraphs, button_label, button_url, code=None, footer="")
 
 def send(to, subject, body, html=None):
     """Send an email, or print to console in development."""
+    if _resend_configured():
+        try:
+            _send_via_resend(subject, to, html=html, body=body)
+            return True
+        except Exception as exc:  # pragma: no cover - depends on external API
+            current_app.logger.warning("Resend send failed, falling back: %s", exc)
+            _console(to, subject, body)
+            return False
+
     if _smtp_configured():
         try:
             msg = Message(
