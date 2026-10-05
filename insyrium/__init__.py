@@ -177,7 +177,7 @@ def _sync_user_columns(app):
 
 
 def _sync_community_columns(app):
-    """Idempotently add community columns that pre-date the current models."""
+    """Idempotently reconcile community tables with the current models."""
     from sqlalchemy import inspect, text
 
     expected = {
@@ -186,6 +186,19 @@ def _sync_community_columns(app):
     try:
         insp = inspect(db.engine)
         existing_tables = set(insp.get_table_names())
+
+        # community_bots changed shape: user_id/owner_id -> server_id/creator_id.
+        # Bots are derived, rebuildable data, so an old-shape table is dropped
+        # once and recreated by create_all() on the next pass.
+        if "community_bots" in existing_tables:
+            bots_cols = {c["name"] for c in insp.get_columns("community_bots")}
+            if "server_id" not in bots_cols:
+                app.logger.warning("Recreating out-of-date community_bots table")
+                db.session.execute(text("DROP TABLE IF EXISTS community_bots"))
+                db.session.commit()
+                db.create_all()
+                existing_tables = set(inspect(db.engine).get_table_names())
+
         for table, columns in expected.items():
             if table not in existing_tables:
                 continue

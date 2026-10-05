@@ -815,8 +815,8 @@ class Bot(db.Model):
     __tablename__ = "community_bots"
 
     id = db.Column(db.BigInteger, primary_key=True)
-    user_id = db.Column(db.BigInteger, db.ForeignKey("users.id"), nullable=False, index=True)
-    owner_id = db.Column(db.BigInteger, db.ForeignKey("users.id"), nullable=False, index=True)
+    server_id = db.Column(db.BigInteger, db.ForeignKey("community_servers.id"), nullable=True, index=True)
+    creator_id = db.Column(db.BigInteger, db.ForeignKey("users.id"), nullable=False, index=True)
     name = db.Column(db.String(80), nullable=False)
     description = db.Column(db.String(500), default="")
     token = db.Column(db.String(64), unique=True, nullable=False, index=True)
@@ -829,8 +829,11 @@ class Bot(db.Model):
     def to_dict(self):
         return {
             "id": self.id,
+            "server_id": self.server_id,
+            "creator_id": self.creator_id,
             "name": self.name,
             "description": self.description,
+            "permissions": self.permissions,
             "is_public": self.is_public,
             "invite_url": self.invite_url,
             "is_enabled": self.is_enabled,
