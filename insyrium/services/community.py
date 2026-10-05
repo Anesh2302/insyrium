@@ -78,10 +78,14 @@ def ensure_default_community(join_user=None):
         return server
 
     if join_user is not None:
-        everyone = ServerRole.query.filter_by(
+        role = ServerRole.query.filter_by(
             server_id=server.id, is_default=True
         ).first()
-        _join(server.id, join_user.id, everyone.id if everyone else None)
+        if join_user.id == server.owner_id:
+            owner_role = ServerRole.query.filter_by(server_id=server.id, rank=100).first()
+            if owner_role is not None:
+                role = owner_role
+        _join(server.id, join_user.id, role.id if role else None)
         db.session.commit()
     return server
 
@@ -102,10 +106,17 @@ def ensure_user_in_default(user):
 
 
 def effective_permissions(member):
-    """Permissions = role permissions (default role if the member has no custom role)."""
+    """Permissions = owner override, else role permissions, else the default role.
+
+    The server owner always holds the full OWNER mask so ownership can never be
+    locked out by a stale or demoted role row.
+    """
     if member is None:
         return 0
-    if member.role_id:
+    server = CommunityServer.query.get(member.server_id)
+    if server is not None and server.owner_id == member.user_id:
+        return Perm.OWNER
+    if member.role_id and member.role is not None:
         return member.role.permissions or 0
     return Perm.DEFAULT_MEMBER
 
