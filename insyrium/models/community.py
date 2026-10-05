@@ -934,3 +934,34 @@ class SessionFingerprint(db.Model):
             "last_seen": self.last_seen.isoformat() if self.last_seen else None,
             "created_at": self.created_at.isoformat() if self.created_at else None,
         }
+
+
+class CommunityEvent(db.Model):
+    """Durable community/admin event log.
+
+    The docs/ JSONL mirror is best-effort (the serverless filesystem is
+    read-only), so the database is the authoritative store.
+    """
+
+    __tablename__ = "community_event_log"
+
+    id = db.Column(db.BigInteger, primary_key=True)
+    kind = db.Column(db.String(80), nullable=False, index=True)
+    actor_id = db.Column(db.BigInteger, db.ForeignKey("users.id"), nullable=True, index=True)
+    server_id = db.Column(db.BigInteger, nullable=True, index=True)
+    target_id = db.Column(db.BigInteger, nullable=True)
+    ip = db.Column(db.String(45))
+    payload = db.Column(db.JSON, nullable=True)
+    created_at = db.Column(db.DateTime, server_default=db.func.now(), index=True)
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "ts": (self.created_at.isoformat() + "Z") if self.created_at else None,
+            "event": self.kind,
+            "actor_id": self.actor_id,
+            "server_id": self.server_id,
+            "target_id": self.target_id,
+            "ip": self.ip,
+            **(self.payload or {}),
+        }

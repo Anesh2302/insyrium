@@ -7,7 +7,9 @@ project docs/ folder for every security-relevant event.
 
 import base64
 import hashlib
+import io
 import json
+import os
 import re
 import secrets
 from datetime import datetime, timedelta
@@ -1245,12 +1247,12 @@ def verify_server(sid):
 def admin_events():
     days = request.args.get("days", default=7, type=int)
     events = docs_service.list_events(max(1, min(days, 30)))
-    csv_path, _ = docs_service.daily_summary()
+    csv_path, _rows = docs_service.daily_summary()
     return jsonify(
         events=events[-300:],
         event_count=len(events),
         docs_folder="docs/community/",
-        today_csv=csv_path,
+        today_csv=csv_path or "(in-memory: filesystem is read-only)",
     )
 
 
@@ -1258,9 +1260,17 @@ def admin_events():
 @token_required
 @require_role("admin_platform")
 def admin_events_download():
-    csv_path, _ = docs_service.daily_summary()
-    return send_file(csv_path, as_attachment=True,
-                     download_name="community_report.csv", mimetype="text/csv")
+    csv_path, _rows = docs_service.daily_summary()
+    if csv_path and os.path.exists(csv_path):
+        return send_file(csv_path, as_attachment=True,
+                         download_name="community_report.csv", mimetype="text/csv")
+    # Read-only filesystem (serverless): stream the CSV from memory instead.
+    return send_file(
+        io.BytesIO(docs_service.csv_bytes(1)),
+        as_attachment=True,
+        download_name="community_report.csv",
+        mimetype="text/csv",
+    )
 
 
 # ══════════════════════════════════════════════════════════════════════════

@@ -10,6 +10,7 @@ from .app_setting import AppSetting
 from .community import (
     Perm,
     CommunityServer,
+    CommunityEvent,
     ServerRole,
     ServerMember,
     Channel,
@@ -60,6 +61,7 @@ __all__ = [
     "AppSetting",
     "Perm",
     "CommunityServer",
+    "CommunityEvent",
     "ServerRole",
     "ServerMember",
     "Channel",
