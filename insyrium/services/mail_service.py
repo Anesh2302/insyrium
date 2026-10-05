@@ -195,7 +195,7 @@ def send_otp_email(email, code, purpose="login"):
         code=code,
         footer=f"This code expires at {stamp}. If you didn't request this code, you can ignore this message.",
     )
-    send(email, subject, body, html)
+    return send(email, subject, body, html)
 
 
 def _alert_recipient():

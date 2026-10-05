@@ -55,12 +55,12 @@ def start_challenge(user, request, purpose="login"):
     db.session.commit()
 
     if channel == "email":
-        mail_service.send_otp_email(user.email, code, purpose)
+        delivered = mail_service.send_otp_email(user.email, code, purpose)
     else:  # SMS gateway placeholder (Twilio etc.)
         print(f"[SMS · DEV CONSOLE] to {user.phone_number}: code {code}", flush=True)
-        mail_service.send_otp_email(user.email, code, purpose)
+        delivered = mail_service.send_otp_email(user.email, code, purpose)
 
-    return {
+    payload = {
         "otp_required": True,
         "purpose": purpose,
         "delivery_channel": channel,
@@ -68,6 +68,13 @@ def start_challenge(user, request, purpose="login"):
         "expires_in": current_app.config["OTP_EXPIRY_SECONDS"],
         "max_attempts": current_app.config["OTP_MAX_ATTEMPTS"],
     }
+
+    # When delivery fails and the console-OTP dev flag is on, hand the code back to
+    # the client so sign-in stays usable on hosts that block outbound SMTP.
+    if not delivered and current_app.config.get("DEV_CONSOLE_OTP"):
+        payload["dev_code"] = code
+
+    return payload
 
 
 def _mask_phone(phone):

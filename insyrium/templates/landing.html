@@ -88,6 +88,7 @@
           <h1>Enter your one-time code</h1>
           <p class="otp-dest">We sent a 6-digit code to <strong id="hp-otp-target">your inbox</strong>.</p>
           <p class="otp-expiry" id="hp-otp-expiry" hidden></p>
+          <p class="otp-dev-code" id="hp-otp-dev" hidden></p>
         </div>
 
         <form id="hp-otp-form" class="stack">
@@ -525,6 +526,13 @@
         hpEmail = document.getElementById('hp-email').value.trim().toLowerCase();
         hpChallenge = json;
         document.getElementById('hp-otp-target').textContent = json.masked_target || 'your inbox';
+        const devBox = document.getElementById('hp-otp-dev');
+        if (json.dev_code) {
+          devBox.textContent = `Email delivery unavailable on this host — your code is ${json.dev_code}`;
+          devBox.hidden = false;
+        } else {
+          devBox.hidden = true;
+        }
         hpShow('otp');
         setTimeout(() => document.querySelector('#hp-otp-boxes input').focus({ preventScroll: true }), 220);
         hpStartResendTimer();
@@ -599,6 +607,13 @@
       if (res.ok) {
         hpChallenge = json;
         document.getElementById('hp-otp-target').textContent = json.masked_target || 'your inbox';
+        const devBox = document.getElementById('hp-otp-dev');
+        if (json.dev_code) {
+          devBox.textContent = `Email delivery unavailable on this host — your code is ${json.dev_code}`;
+          devBox.hidden = false;
+        } else {
+          devBox.hidden = true;
+        }
         Insyrium.toast('A new code has been sent.', 'success');
         hpStartResendTimer();
         hpStartExpiryCountdown();

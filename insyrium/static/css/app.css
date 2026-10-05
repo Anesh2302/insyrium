@@ -456,6 +456,7 @@ select option { background: var(--panel-solid); }
 .otp-expiry { margin: 0.4rem 0 0; font-size: 0.85rem; color: var(--text-2); text-align: center; }
 .otp-expiry b { color: var(--text); font-variant-numeric: tabular-nums; }
 .otp-expiry.expired { color: #f87171; font-weight: 600; }
+.otp-dev-code { margin: 0.6rem 0 0; padding: 0.65rem 0.85rem; border-radius: 8px; background: #fff7ed; border: 1px dashed #fb923c; color: #9a3412; font-size: 0.85rem; font-weight: 600; text-align: center; letter-spacing: 0.02em; }
 .otp-invalid input { border-color: rgba(248, 113, 113, 0.6); animation: shake 0.35s ease; }
 @keyframes shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
 .otp-actions { display: flex; gap: 0.7rem; margin-top: 1rem; }
