@@ -699,6 +699,7 @@ class ServerBoost(db.Model):
     server_id = db.Column(db.BigInteger, db.ForeignKey("community_servers.id"), nullable=False, index=True)
     user_id = db.Column(db.BigInteger, db.ForeignKey("users.id"), nullable=False, index=True)
     tier = db.Column(db.Integer, default=1)
+    is_active = db.Column(db.Boolean, default=True, nullable=False, server_default=db.text("true"))
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     expires_at = db.Column(db.DateTime, nullable=True)
 
@@ -708,6 +709,7 @@ class ServerBoost(db.Model):
             "server_id": self.server_id,
             "user_id": self.user_id,
             "tier": self.tier,
+            "is_active": self.is_active,
             "created_at": self.created_at.isoformat() if self.created_at else None,
             "expires_at": self.expires_at.isoformat() if self.expires_at else None,
         }

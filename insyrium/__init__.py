@@ -82,6 +82,7 @@ def create_app(config_object=None):
                 "Run: flask --app app init-db"
             )
         _sync_user_columns(app)
+        _sync_community_columns(app)
         _migrate_settings_keys(app)
         try:
             from .services import community as community_service
@@ -173,6 +174,30 @@ def _sync_user_columns(app):
     except Exception as exc:  # never block boot on a schema sync
         db.session.rollback()
         app.logger.warning("Could not sync users table columns: %s", exc)
+
+
+def _sync_community_columns(app):
+    """Idempotently add community columns that pre-date the current models."""
+    from sqlalchemy import inspect, text
+
+    expected = {
+        "community_server_boosts": [("is_active", "BOOLEAN NOT NULL DEFAULT TRUE")],
+    }
+    try:
+        insp = inspect(db.engine)
+        existing_tables = set(insp.get_table_names())
+        for table, columns in expected.items():
+            if table not in existing_tables:
+                continue
+            present = {c["name"] for c in insp.get_columns(table)}
+            for name, ddl in columns:
+                if name not in present:
+                    db.session.execute(text(f"ALTER TABLE {table} ADD COLUMN {name} {ddl}"))
+                    app.logger.info("Added %s.%s", table, name)
+        db.session.commit()
+    except Exception as exc:  # never block boot on a schema sync
+        db.session.rollback()
+        app.logger.warning("Could not sync community table columns: %s", exc)
 
 
 def _start_scheduler(app):
